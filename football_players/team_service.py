@@ -10,7 +10,6 @@ def create_teams_for_all_seasons():
 
 
 def create_teams_for_season(season):
-    print(season.transfermarkt_hyperlink)
     page_soup = get_page_soup_from_hyperlink(season.transfermarkt_hyperlink)
     divs = page_soup.find_all(name='div', class_='box')
     for div in divs:

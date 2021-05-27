@@ -21,7 +21,7 @@ class Team(models.Model):
 
 
 class Position(models.Model):
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=200, unique=True)
 
 
 class Country(models.Model):

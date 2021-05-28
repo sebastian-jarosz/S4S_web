@@ -4,6 +4,7 @@ from football_players.league_service import get_leagues_from_all_countries
 from football_players.season_service import create_seasons_for_all_leagues
 from football_players.queue_service import create_queues_for_all_seasons
 from football_players.team_service import create_teams_for_all_seasons
+from football_players.player_service import create_players_for_all_teams_and_seasons
 
 
 def index(request):
@@ -33,6 +34,10 @@ def queue(request):
 def team(request):
     create_teams_for_all_seasons()
     return HttpResponse("create_teams_for_all_seasons invoked")
+
+def player(request):
+    create_players_for_all_teams_and_seasons()
+    return HttpResponse("create_players_for_all_teams_and_seasons invoked")
 
 
 

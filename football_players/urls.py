@@ -8,5 +8,6 @@ urlpatterns = [
     path('league', views.league, name="league"),
     path('season', views.season, name="season"),
     path('queue', views.queue, name="queue"),
-    path('team', views.team, name="team")
+    path('team', views.team, name="team"),
+    path('player', views.player, name="player")
 ]

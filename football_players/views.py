@@ -1,10 +1,10 @@
 from django.http import HttpResponse
-from country_service import get_countries_from_file
-from league_service import get_leagues_from_all_countries
-from season_service import create_seasons_for_all_leagues
-from queue_service import create_queues_for_all_seasons
-from team_service import create_teams_for_all_seasons
-from player_service import create_players_for_all_teams_and_seasons
+from .country_service import get_countries_from_file
+from .league_service import get_leagues_from_all_countries
+from .season_service import create_seasons_for_all_leagues
+from .queue_service import create_queues_for_all_seasons
+from .team_service import create_teams_for_all_seasons
+from .player_service import create_players_for_all_teams_and_seasons
 
 
 def index(request):

@@ -10,5 +10,6 @@ urlpatterns = [
     path('queue', views.queue, name="queue"),
     path('team', views.team, name="team"),
     path('player', views.player, name="player"),
-    path('attributes', views.player_attributes, name="player_attributes")
+    path('attributes', views.player_attributes, name="player_attributes"),
+    path('match', views.match, name="match")
 ]

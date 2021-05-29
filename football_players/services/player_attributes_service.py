@@ -2,6 +2,7 @@ import football_players.constants as const
 from datetime import datetime
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Player, Position, ManagementAgency, DominatingFoot
+from ..utils.app_utils import parse_transfermarkt_date
 
 
 def update_attributes_for_all_players():
@@ -33,8 +34,8 @@ def update_attributes_for_player(player):
 def get_date_of_birth_from_page_soup(page_soup):
     # Get birthdate and trim left and right white signs
     try:
-        date_of_birth = page_soup.find("span", {"itemprop": "birthDate"}).text.strip().split('(')[0].strip()
-        date_of_birth = datetime.strptime(date_of_birth, "%b %d, %Y").strftime("%Y-%m-%d")
+        date_of_birth_text = page_soup.find("span", {"itemprop": "birthDate"}).text.strip().split('(')[0].strip()
+        date_of_birth = parse_transfermarkt_date(date_of_birth_text)
     except Exception:
         date_of_birth = const.NO_INFORMATION
 

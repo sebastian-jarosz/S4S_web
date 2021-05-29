@@ -24,7 +24,7 @@ def create_matches_for_queue(queue):
         match_transfermarkt_hyperlink = const.TRANSFERMARKT_MAIN_PAGE_URL + score_tag.find_parent("a")['href']
         match_date = parse_transfermarkt_date(score_tag.parent.parent.parent.parent.findNext("tr").find("a").text.strip())
 
-        create_match(first_team, second_team, match_transfermarkt_hyperlink, match_date)
+        create_match(first_team, second_team, match_transfermarkt_hyperlink, match_date, queue)
 
 
 def get_teams_from_team_related_tags(team_related_tags):
@@ -39,12 +39,13 @@ def get_teams_from_team_related_tags(team_related_tags):
     return first_team, second_team
 
 
-def create_match(first_team, second_team, transfermarkt_hyperlink, match_date):
+def create_match(first_team, second_team, transfermarkt_hyperlink, match_date, queue):
     obj, created = Match.objects.get_or_create(
         transfermarkt_hyperlink=transfermarkt_hyperlink,
         first_team=first_team,
         second_team=second_team,
-        date=match_date
+        date=match_date,
+        queue=queue
     )
 
     if created:

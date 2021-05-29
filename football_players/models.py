@@ -62,6 +62,7 @@ class Match(models.Model):
     second_team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, related_name="second_team")
     date = models.DateField()
     transfermarkt_hyperlink = models.URLField(unique=True)
+    queue = models.ForeignKey(Queue, on_delete=models.DO_NOTHING)
 
 
 class Player(models.Model):

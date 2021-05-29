@@ -64,6 +64,12 @@ class Match(models.Model):
     transfermarkt_hyperlink = models.URLField(unique=True)
     queue = models.ForeignKey(Queue, on_delete=models.DO_NOTHING)
 
+    def get_season(self):
+        return self.queue.season
+
+    def get_transfermarkt_id_as_string(self):
+        return str(self.transfermarkt_hyperlink.rsplit('/', 1)[1])
+
 
 class Player(models.Model):
     first_name = models.CharField(max_length=100, null=True)
@@ -95,7 +101,7 @@ class Assist(models.Model):
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
 
 
-class MatchPlayers(models.Model):
+class MatchPlayer(models.Model):
     time = models.IntegerField()
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
     match = models.ForeignKey(Match, on_delete=models.DO_NOTHING)

@@ -1,7 +1,7 @@
 import os
-from .models import Country
 from sys import platform
 from .scraping_service import get_page_soup_from_file
+from ..models import Country
 
 
 # Data taken from file because of change in transfermarkt html structure

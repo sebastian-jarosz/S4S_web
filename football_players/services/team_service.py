@@ -1,6 +1,6 @@
 import football_players.constants as const
 from .scraping_service import get_page_soup_from_hyperlink
-from .models import Season, Team
+from ..models import Season, Team
 
 
 def create_teams_for_all_seasons():

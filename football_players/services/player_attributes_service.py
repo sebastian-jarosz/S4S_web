@@ -1,7 +1,7 @@
 import football_players.constants as const
 from datetime import datetime
 from .scraping_service import get_page_soup_from_hyperlink
-from .models import Player, Position, ManagementAgency, DominatingFoot
+from ..models import Player, Position, ManagementAgency, DominatingFoot
 
 
 def update_attributes_for_all_players():

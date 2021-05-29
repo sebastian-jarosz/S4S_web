@@ -1,6 +1,6 @@
 import football_players.constants as const
 import datetime as dt
-from .models import Season, ApplicationParameters, League
+from ..models import Season, ApplicationParameters, League
 
 
 # TODO Seasons should be created only for not excluded Leagues

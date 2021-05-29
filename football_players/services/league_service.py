@@ -1,5 +1,5 @@
-from .models import Country, League
 from .scraping_service import get_page_soup_from_hyperlink
+from ..models import Country, League
 
 
 def get_leagues_from_all_countries():

@@ -1,7 +1,7 @@
 import datetime as dt
 import football_players.constants as const
 from .scraping_service import get_queue_page_soup_from_hyperlink
-from .models import Season, ApplicationParameters, Queue
+from ..models import Season, ApplicationParameters, Queue
 
 
 def create_queues_for_all_seasons():

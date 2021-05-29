@@ -19,6 +19,9 @@ class Team(models.Model):
     transfermarkt_id = models.IntegerField(unique=True)
     transfermarkt_hyperlink = models.URLField(unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Position(models.Model):
     description = models.CharField(max_length=200, unique=True)

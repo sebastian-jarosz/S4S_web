@@ -7,6 +7,7 @@ from .services.team_service import create_teams_for_all_seasons
 from .services.player_service import create_players_for_all_teams_and_seasons
 from .services.player_attributes_service import update_attributes_for_all_players
 from .services.match_service import create_matches_for_all_queues
+from .services.match_event_service import create_events_for_all_matches
 
 
 def index(request):
@@ -51,4 +52,9 @@ def player_attributes(request):
 def match(request):
     create_matches_for_all_queues()
     return HttpResponse("create_matches_for_all_queues invoked")
+
+
+def match_events(request):
+    create_events_for_all_matches()
+    return HttpResponse("create_events_for_all_matches invoked")
 

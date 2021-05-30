@@ -6,12 +6,9 @@ from ..models import Player, PlayerTeam, Team, Season
 def create_players_for_all_teams_and_seasons():
     # TODO
     # for season in Season.objects.filter(description__contains='ekstraklasa '):
-    #     for team in Team.objects.all():
-    #         create_players_for_team_and_season(team, season)
     season = Season.objects.get(id=5821)
-    team = Team.objects.get(id=1)
-
-    create_players_for_team_and_season(team, season)
+    for team in Team.objects.all():
+        create_players_for_team_and_season(team, season)
 
 
 def create_players_for_team_and_season(team, season):

@@ -2,11 +2,14 @@ import datetime as dt
 import football_players.constants as const
 from .scraping_service import get_queue_page_soup_from_hyperlink
 from ..models import Season, ApplicationParameters, Queue
+from ..utils.app_utils import *
 
 
+# Multithreading used
 def create_queues_for_all_seasons():
-    for season in Season.objects.filter(description__contains='ekstraklasa'):
-        create_queues_for_season(season)
+    all_seasons = Season.objects.all()
+    pool = get_pool()
+    pool.map(create_queues_for_season, all_seasons)
 
 
 def create_queues_for_season(season):

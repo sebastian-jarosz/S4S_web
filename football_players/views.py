@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from .services.country_service import get_countries_from_file
 from .services.league_service import *
 from .services.season_service import *
-from .services.queue_service import create_queues_for_all_seasons
+from .services.queue_service import *
 from .services.team_service import create_teams_for_all_seasons
 from .services.player_service import create_players_for_all_teams_and_seasons
 from .services.player_attributes_service import update_attributes_for_all_players

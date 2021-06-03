@@ -1,12 +1,19 @@
 import football_players.constants as const
 import datetime as dt
 from ..models import Season, ApplicationParameters, League
+from ..utils.app_utils import *
 
 
-# TODO Seasons should be created only for not excluded Leagues
 def create_seasons_for_all_leagues():
     for league in League.objects.all():
         create_seasons_for_league(league)
+
+
+# Multithreading used
+def create_seasons_for_not_excluded_leagues():
+    not_excluded_leagues = League.objects.filter(is_excluded=False)
+    pool = get_pool()
+    pool.map(create_seasons_for_league, not_excluded_leagues)
 
 
 def create_seasons_for_league(league):

@@ -48,6 +48,8 @@ class Season(models.Model):
     end_year = models.IntegerField()
     transfermarkt_hyperlink = models.URLField(unique=True)
     league = models.ForeignKey(League, on_delete=models.DO_NOTHING)
+    all_teams_fetched = models.BooleanField(default=False)
+    all_players_from_teams_fetched = models.BooleanField(default=False)
 
 
 class Queue(models.Model):

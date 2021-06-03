@@ -1,12 +1,13 @@
 import football_players.constants as const
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Season, Team
+from ..utils.app_utils import *
 
 
 def create_teams_for_all_seasons():
-    # TODO
-    for season in Season.objects.filter(description__contains='ekstraklasa '):
-        create_teams_for_season(season)
+    all_seasons = Season.objects.all()
+    pool = get_pool()
+    pool.map(create_teams_for_season, all_seasons)
 
 
 def create_teams_for_season(season):

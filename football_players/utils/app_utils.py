@@ -9,4 +9,4 @@ def parse_transfermarkt_date(transfermarkt_date):
 
 def get_pool():
     multiprocessing.set_start_method("fork", force=True)
-    return multiprocessing.Pool(50)
+    return multiprocessing.Pool(30)

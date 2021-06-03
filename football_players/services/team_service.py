@@ -11,6 +11,17 @@ def create_teams_for_all_seasons():
     pool.map(create_teams_for_season, all_seasons)
 
 
+# Multithreading used
+def create_teams_for_not_fetched_seasons():
+    all_seasons = Season.objects.filter(all_teams_fetched=False)
+    if all_seasons.exists():
+        pool = get_pool()
+        pool.map(create_teams_for_season, all_seasons)
+        print("Teams for %i (count) Seasons - FETCHED" % len(all_seasons))
+    else:
+        print("All Teams for all Seasons - ALREADY FETCHED")
+
+
 def create_teams_for_season(season):
     page_soup = get_page_soup_from_hyperlink(season.transfermarkt_hyperlink)
     divs = page_soup.find_all(name='div', class_='box')
@@ -28,6 +39,10 @@ def create_teams_for_season(season):
                 team_name = a_tag.text
 
                 create_team(team_name, team_hyperlink, team_transfermarkt_id)
+
+    season.all_teams_fetched = True
+    season.save()
+    print("All Teams for Season %s\t - FETCHED" % season.description)
 
 
 def create_team(team_name, team_hyperlink, team_transfermarkt_id):

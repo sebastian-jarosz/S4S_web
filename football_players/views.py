@@ -4,7 +4,7 @@ from .services.league_service import *
 from .services.season_service import *
 from .services.queue_service import *
 from .services.team_service import *
-from .services.player_service import create_players_for_all_teams_and_seasons
+from .services.player_service import *
 from .services.player_attributes_service import update_attributes_for_all_players
 from .services.match_service import create_matches_for_all_queues
 from .services.match_event_service import create_events_for_all_matches
@@ -37,7 +37,8 @@ def queue(request):
 
 
 def team(request):
-    create_teams_for_all_seasons()
+    # create_teams_for_all_seasons()
+    create_teams_for_not_fetched_seasons()
     return HttpResponse("create_teams_for_all_seasons invoked")
 
 

@@ -1,10 +1,18 @@
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Country, League
+from ..utils.app_utils import *
 
 
 def get_leagues_from_all_countries():
     for country in Country.objects.all():
         get_leagues_from_country(country)
+
+
+# Multithreading used
+def get_leagues_from_not_excluded_countries():
+    not_excluded_countries = Country.objects.filter(is_excluded=False)
+    pool = get_pool()
+    pool.map(get_leagues_from_country, not_excluded_countries)
 
 
 def get_leagues_from_country(country):

@@ -4,6 +4,7 @@ from ..models import Season, Team
 from ..utils.app_utils import *
 
 
+# Multithreading used
 def create_teams_for_all_seasons():
     all_seasons = Season.objects.all()
     pool = get_pool()

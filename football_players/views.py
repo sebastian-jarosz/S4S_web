@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from .services.country_service import get_countries_from_file
-from .services.league_service import get_leagues_from_all_countries
+from .services.league_service import *
 from .services.season_service import create_seasons_for_all_leagues
 from .services.queue_service import create_queues_for_all_seasons
 from .services.team_service import create_teams_for_all_seasons
@@ -20,7 +20,8 @@ def country(request):
 
 
 def league(request):
-    get_leagues_from_all_countries()
+    # get_leagues_from_all_countries()
+    get_leagues_from_not_excluded_countries()
     return HttpResponse("get_leagues_from_all_countries invoked")
 
 

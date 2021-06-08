@@ -87,6 +87,11 @@ class Player(models.Model):
         return self.first_name + " " + self.last_name if self.last_name is not None else self.first_name
 
 
+class TeamSeason(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.DO_NOTHING)
+    season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
+
+
 class PlayerTeam(models.Model):
     team = models.ForeignKey(Team, on_delete=models.DO_NOTHING)
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)

@@ -39,7 +39,7 @@ def queue(request):
 def team(request):
     # create_teams_for_all_seasons()
     create_teams_for_not_fetched_seasons()
-    return HttpResponse("create_teams_for_all_seasons invoked")
+    return HttpResponse("create_teams_for_not_fetched_seasons invoked")
 
 
 def player(request):

@@ -1,6 +1,6 @@
 import football_players.constants as const
 from .scraping_service import get_page_soup_from_hyperlink
-from ..models import Season, Team
+from ..models import Season, Team, TeamSeason
 from ..utils.app_utils import *
 
 
@@ -38,7 +38,8 @@ def create_teams_for_season(season):
                 team_transfermarkt_id = a_tag['id']
                 team_name = a_tag.text
 
-                create_team(team_name, team_hyperlink, team_transfermarkt_id)
+                team = create_team(team_name, team_hyperlink, team_transfermarkt_id)
+                create_team_season_relation(team, season)
 
     season.all_teams_fetched = True
     season.save()
@@ -58,3 +59,17 @@ def create_team(team_name, team_hyperlink, team_transfermarkt_id):
         print("Team %s\t- %s\t- CREATED" % (obj.transfermarkt_id, obj.name))
     else:
         print("Team %s\t- %s\t- EXISTS" % (obj.transfermarkt_id, obj.name))
+
+    return obj
+
+
+def create_team_season_relation(team, season):
+    obj, created = TeamSeason.objects.get_or_create(
+        team=team,
+        season=season
+    )
+
+    if created:
+        print("Relation %s\t- %s\t- CREATED" % (team.name, season.description))
+    else:
+        print("Relation %s\t- %s\t- EXISTS" % (team.name, season.description))

@@ -1,13 +1,23 @@
 import football_players.constants as const
-from datetime import datetime
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Player, Position, ManagementAgency, DominatingFoot
-from ..utils.app_utils import parse_transfermarkt_date
+from ..utils.app_utils import *
 
 
 def update_attributes_for_all_players():
-    for player in Player.objects.all():
-        update_attributes_for_player(player)
+    all_players = Player.objects.all()
+    pool = get_pool()
+    pool.map(update_attributes_for_player, all_players)
+
+
+def update_attributes_for_not_updated_players():
+    all_players = Player.objects.filter(date_of_birth=None) \
+                  | Player.objects.filter(position=None) \
+                  | Player.objects.filter(foot=None) \
+                  | Player.objects.filter(agency=None)
+
+    pool = get_pool()
+    pool.map(update_attributes_for_player, all_players)
 
 
 def update_attributes_for_player(player):

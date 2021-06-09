@@ -43,8 +43,8 @@ def team(request):
 
 
 def player(request):
-    create_players_for_all_teams_and_seasons()
-    return HttpResponse("create_players_for_all_teams_and_seasons invoked")
+    create_players_for_all_teams_and_not_fetched_seasons()
+    return HttpResponse("create_players_for_all_teams_and_not_fetched_seasons invoked")
 
 
 def player_attributes(request):

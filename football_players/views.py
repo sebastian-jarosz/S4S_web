@@ -5,7 +5,7 @@ from .services.season_service import *
 from .services.queue_service import *
 from .services.team_service import *
 from .services.player_service import *
-from .services.player_attributes_service import update_attributes_for_all_players
+from .services.player_attributes_service import *
 from .services.match_service import create_matches_for_all_queues
 from .services.match_event_service import create_events_for_all_matches
 
@@ -48,7 +48,7 @@ def player(request):
 
 
 def player_attributes(request):
-    update_attributes_for_all_players()
+    update_attributes_for_not_updated_players()
     return HttpResponse("update_attributes_for_all_players invoked")
 
 

@@ -49,7 +49,7 @@ def player(request):
 
 def player_attributes(request):
     update_attributes_for_not_updated_players()
-    return HttpResponse("update_attributes_for_all_players invoked")
+    return HttpResponse("update_attributes_for_not_updated_players invoked")
 
 
 def match(request):

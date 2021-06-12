@@ -62,7 +62,7 @@ class Queue(models.Model):
 class Match(models.Model):
     first_team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, related_name="first_team")
     second_team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, related_name="second_team")
-    date = models.DateField()
+    date = models.DateField(null=True)
     transfermarkt_hyperlink = models.URLField(unique=True)
     queue = models.ForeignKey(Queue, on_delete=models.DO_NOTHING)
 
@@ -104,7 +104,7 @@ class Goal(models.Model):
 
 
 class Assist(models.Model):
-    match = models.ForeignKey(Match, on_delete=models.DO_NOTHING, null=True)
+    match = models.ForeignKey(Match, on_delete=models.DO_NOTHING)
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
 
 

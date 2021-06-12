@@ -104,7 +104,7 @@ class Goal(models.Model):
 
 
 class Assist(models.Model):
-    match = models.ForeignKey(Match, on_delete=models.DO_NOTHING)
+    match = models.ForeignKey(Match, on_delete=models.DO_NOTHING, null=True)
     player = models.ForeignKey(Player, on_delete=models.DO_NOTHING)
 
 

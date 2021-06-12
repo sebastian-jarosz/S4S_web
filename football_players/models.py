@@ -65,6 +65,7 @@ class Match(models.Model):
     date = models.DateField(null=True)
     transfermarkt_hyperlink = models.URLField(unique=True)
     queue = models.ForeignKey(Queue, on_delete=models.DO_NOTHING)
+    are_event_fetched = models.BooleanField(default=False)
 
     def get_season(self):
         return self.queue.season

@@ -9,6 +9,7 @@ def create_teams_for_all_seasons():
     all_seasons = Season.objects.all()
     pool = get_pool()
     pool.map(create_teams_for_season, all_seasons)
+    pool.close()
 
 
 # Multithreading used
@@ -18,6 +19,7 @@ def create_teams_for_not_fetched_seasons():
         pool = get_pool()
         pool.map(create_teams_for_season, all_seasons)
         print("Teams for %i (count) Seasons - FETCHED" % len(all_seasons))
+        pool.close()
     else:
         print("All Teams for all Seasons - ALREADY FETCHED")
 

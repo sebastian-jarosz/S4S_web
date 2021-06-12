@@ -9,13 +9,15 @@ def create_matches_for_all_queues():
     all_queues = Queue.objects.all()
     pool = get_pool()
     pool.map(create_matches_for_queue, all_queues)
+    pool.close()
 
 
 # Multithreading used
 def create_matches_for_not_fetched_queues():
-    all_queues = Queue.objects.filter(are_matches_fetched=False)
+    not_fetched_queues = Queue.objects.filter(are_matches_fetched=False)
     pool = get_pool()
-    pool.map(create_matches_for_queue, all_queues)
+    pool.map(create_matches_for_queue, not_fetched_queues)
+    pool.close()
 
 
 def create_matches_for_queue(queue):

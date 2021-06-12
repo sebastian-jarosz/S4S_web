@@ -4,8 +4,10 @@ from ..utils.app_utils import *
 
 
 def get_leagues_from_all_countries():
-    for country in Country.objects.all():
-        get_leagues_from_country(country)
+    all_countries = Country.objects.all()
+    pool = get_pool()
+    pool.map(get_leagues_from_country, all_countries)
+    pool.close()
 
 
 # Multithreading used
@@ -13,6 +15,7 @@ def get_leagues_from_not_excluded_countries():
     not_excluded_countries = Country.objects.filter(is_excluded=False)
     pool = get_pool()
     pool.map(get_leagues_from_country, not_excluded_countries)
+    pool.close()
 
 
 def get_leagues_from_country(country):

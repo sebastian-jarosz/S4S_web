@@ -5,8 +5,10 @@ from ..utils.app_utils import *
 
 
 def create_seasons_for_all_leagues():
-    for league in League.objects.all():
-        create_seasons_for_league(league)
+    all_leagues = League.objects.all()
+    pool = get_pool()
+    pool.map(create_seasons_for_league, all_leagues)
+    pool.close()
 
 
 # Multithreading used
@@ -14,6 +16,7 @@ def create_seasons_for_not_excluded_leagues():
     not_excluded_leagues = League.objects.filter(is_excluded=False)
     pool = get_pool()
     pool.map(create_seasons_for_league, not_excluded_leagues)
+    pool.close()
 
 
 def create_seasons_for_league(league):

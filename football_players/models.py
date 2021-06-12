@@ -55,7 +55,7 @@ class Season(models.Model):
 class Queue(models.Model):
     number = models.IntegerField()
     transfermarkt_hyperlink = models.CharField(max_length=200)
-    is_data_fetched = models.BooleanField(default=False)
+    are_matches_fetched = models.BooleanField(default=False)
     season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
 
 

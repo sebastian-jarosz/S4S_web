@@ -16,6 +16,7 @@ def create_players_for_all_teams_and_seasons():
         print("All players for season %s\t- CREATED" % season.description)
 
 
+# Multithreading used
 def create_players_for_all_teams_and_not_fetched_seasons():
     all_seasons = Season.objects.filter(all_players_from_teams_fetched=False)
     for season in all_seasons:

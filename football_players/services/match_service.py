@@ -4,12 +4,14 @@ from ..models import Match, Queue, Team
 from ..utils.app_utils import *
 
 
+# Multithreading used
 def create_matches_for_all_queues():
     all_queues = Queue.objects.all()
     pool = get_pool()
     pool.map(create_matches_for_queue, all_queues)
 
 
+# Multithreading used
 def create_matches_for_not_fetched_queues():
     all_queues = Queue.objects.filter(are_matches_fetched=False)
     pool = get_pool()

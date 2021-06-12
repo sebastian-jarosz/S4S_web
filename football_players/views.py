@@ -6,7 +6,7 @@ from .services.queue_service import *
 from .services.team_service import *
 from .services.player_service import *
 from .services.player_attributes_service import *
-from .services.match_service import create_matches_for_all_queues
+from .services.match_service import *
 from .services.match_event_service import create_events_for_all_matches
 
 
@@ -53,8 +53,8 @@ def player_attributes(request):
 
 
 def match(request):
-    create_matches_for_all_queues()
-    return HttpResponse("create_matches_for_all_queues invoked")
+    create_matches_for_not_fetched_queues()
+    return HttpResponse("create_matches_for_not_fetched_queues invoked")
 
 
 def match_events(request):

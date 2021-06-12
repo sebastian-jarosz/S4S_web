@@ -4,12 +4,14 @@ from ..models import Player, Position, ManagementAgency, DominatingFoot
 from ..utils.app_utils import *
 
 
+# Multithreading used
 def update_attributes_for_all_players():
     all_players = Player.objects.all()
     pool = get_pool()
     pool.map(update_attributes_for_player, all_players)
 
 
+# Multithreading used
 def update_attributes_for_not_updated_players():
     all_players = Player.objects.filter(date_of_birth=None) \
                   | Player.objects.filter(position=None) \

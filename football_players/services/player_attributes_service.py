@@ -10,6 +10,7 @@ def update_attributes_for_all_players():
     pool = get_pool()
     pool.map(update_attributes_for_player, all_players)
     pool.close()
+    pool.join()
 
 
 # Multithreading used
@@ -22,6 +23,7 @@ def update_attributes_for_not_updated_players():
     pool = get_pool()
     pool.map(update_attributes_for_player, all_players)
     pool.close()
+    pool.join()
 
 
 def update_attributes_for_player(player):

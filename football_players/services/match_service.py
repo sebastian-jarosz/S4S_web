@@ -10,6 +10,7 @@ def create_matches_for_all_queues():
     pool = get_pool()
     pool.map(create_matches_for_queue, all_queues)
     pool.close()
+    pool.join()
 
 
 # Multithreading used
@@ -18,6 +19,7 @@ def create_matches_for_not_fetched_queues():
     pool = get_pool()
     pool.map(create_matches_for_queue, not_fetched_queues)
     pool.close()
+    pool.join()
 
 
 def create_matches_for_queue(queue):

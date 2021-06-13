@@ -8,6 +8,7 @@ def get_leagues_from_all_countries():
     pool = get_pool()
     pool.map(get_leagues_from_country, all_countries)
     pool.close()
+    pool.join()
 
 
 # Multithreading used
@@ -16,6 +17,7 @@ def get_leagues_from_not_excluded_countries():
     pool = get_pool()
     pool.map(get_leagues_from_country, not_excluded_countries)
     pool.close()
+    pool.join()
 
 
 def get_leagues_from_country(country):

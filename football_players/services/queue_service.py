@@ -11,6 +11,7 @@ def create_queues_for_all_seasons():
     pool = get_pool()
     pool.map(create_queues_for_season, all_seasons)
     pool.close()
+    pool.join()
 
 
 def create_queues_for_season(season):

@@ -12,6 +12,7 @@ def create_players_for_all_teams_and_seasons():
         pool = get_small_pool()
         pool.map(create_players_for_team_and_season, team_season_rel_list)
         pool.close()
+        pool.join()
         season.all_players_from_teams_fetched = True
         season.save()
         print("All players for season %s\t- CREATED" % season.description)
@@ -25,6 +26,7 @@ def create_players_for_all_teams_and_not_fetched_seasons():
         pool = get_small_pool()
         pool.map(create_players_for_team_and_season, team_season_rel_list)
         pool.close()
+        pool.join()
         season.all_players_from_teams_fetched = True
         season.save()
         print("All players for season %s\t- CREATED" % season.description)

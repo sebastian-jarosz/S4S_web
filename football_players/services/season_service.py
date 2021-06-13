@@ -9,6 +9,7 @@ def create_seasons_for_all_leagues():
     pool = get_pool()
     pool.map(create_seasons_for_league, all_leagues)
     pool.close()
+    pool.join()
 
 
 # Multithreading used
@@ -17,6 +18,7 @@ def create_seasons_for_not_excluded_leagues():
     pool = get_pool()
     pool.map(create_seasons_for_league, not_excluded_leagues)
     pool.close()
+    pool.join()
 
 
 def create_seasons_for_league(league):

@@ -1,16 +1,32 @@
 import football_players.constants as const
-import multiprocessing
 from .scraping_service import get_page_soup_from_hyperlink
-from ..models import Match, Team, Goal, Player, Assist, MatchPlayer
-from ..utils.app_utils import parse_transfermarkt_date
+from ..models import Match, Goal, Player, Assist, MatchPlayer
+from ..utils.app_utils import *
+from time import sleep
+import requests
 
 
+# Multithreading used
 def create_events_for_all_matches():
-    # # TODO
-    # for match in Match.objects.all():
-    #     create_teams_for_season(queue)
-    match = Match.objects.get(id=2)
-    create_events_for_match(match)
+    all_matches = Match.objects.all()
+    for match in all_matches:
+        create_events_for_match(match)
+
+
+# Multithreading used
+def create_events_for_not_fetched_matches():
+    attempts = 0
+    not_fetched_matches = Match.objects.filter(are_event_fetched=False)
+    pool = get_pool()
+
+    # Needed in case of connection refuse (too many requests)
+    while attempts < 100:
+        for match in not_fetched_matches:
+            try:
+                create_events_for_match(match)
+            except requests.exceptions.ConnectionError:
+                attempts += 1
+                sleep(10)
 
 
 def create_events_for_match(match):
@@ -31,9 +47,10 @@ def create_events_for_match(match):
     participating_players_dicts = get_hyperlinks_for_participating_players(participating_players_dicts, season)
 
     multiprocessing.set_start_method("fork", force=True)
-    p = multiprocessing.Pool(50)
-    participating_players_dicts = p.map(get_minutes_for_player, participating_players_dicts)
-    p.close()
+    pool = get_pool()
+    participating_players_dicts = pool.map(get_minutes_for_player, participating_players_dicts)
+    pool.close()
+    pool.join()
 
     # Save all goals to DB
     create_all_goals(goal_player_ids, match)
@@ -43,8 +60,18 @@ def create_events_for_match(match):
     # Save all Player - Match relations to DB
     for player_dict in participating_players_dicts:
         player_id = player_dict['player_id']
-        player = Player.objects.get(transfermarkt_id=int(player_id))
+
+        try:
+            player = Player.objects.get(transfermarkt_id=int(player_id))
+        except Player.DoesNotExist:
+            player = None
+
         create_match_player_relation(player, match, player_dict['minutes'])
+
+    match.are_event_fetched = True
+    match.save()
+    print("All events for match ID:%i date:%s between %s and %s\t- CREATED" %
+          (match.id, str(match.date), match.first_team.name, match.second_team.name))
 
 
 def get_starting_line_up_player_ids_from_page_soup(page_soup):
@@ -53,32 +80,39 @@ def get_starting_line_up_player_ids_from_page_soup(page_soup):
 
     # Starting line up in case of different html structure
     if len(starting_line_up_ids_tags) == 0:
-        starting_line_up_tags = page_soup.find("h2", text="Line-Ups").parent.parent
-        starting_line_up_ids_tags = starting_line_up_tags.findAll("a",
-                                                                  {"class": ["spielprofil_tooltip", "tooltipstered"]})
+        line_ups_tag = page_soup.find("h2", text="Line-Ups")
+        starting_line_up_tags = line_ups_tag.parent.parent if line_ups_tag is not None else None
+        if starting_line_up_tags is not None:
+            starting_line_up_ids_tags = starting_line_up_tags.findAll("a",
+                                                                      {"class": ["spielprofil_tooltip", "tooltipstered"]})
 
     transfermarkt_players_ids = []
-    for id_tag in starting_line_up_ids_tags:
-        transfermarkt_players_ids.append(id_tag['id'])
+
+    if starting_line_up_ids_tags is not None:
+        for id_tag in starting_line_up_ids_tags:
+            transfermarkt_players_ids.append(id_tag['id'])
 
     return transfermarkt_players_ids
 
 
 def get_goal_and_assist_player_ids_from_page_soup(page_soup):
-    goal_table_record_tags = page_soup.find("div", {"id": "sb-tore"}).findAll("div", {"class": "sb-aktion-aktion"})
+    sb_tore_tag = page_soup.find("div", {"id": "sb-tore"})
+    goal_table_record_tags = sb_tore_tag.findAll("div", {"class": "sb-aktion-aktion"}) \
+        if sb_tore_tag is not None else None
 
     goal_player_ids = []
     assist_player_ids = []
 
-    for goal_table_record_tag in goal_table_record_tags:
-        player_tags = goal_table_record_tag.findAll("a", {"class": "wichtig"})
-        for i in range(0, len(player_tags)):
-            # if even number - Goal
-            if i % 2 == 0:
-                goal_player_ids.append((player_tags[i])['id'])
-            # if odd number - Assist
-            else:
-                assist_player_ids.append((player_tags[i])['id'])
+    if goal_table_record_tags is not None:
+        for goal_table_record_tag in goal_table_record_tags:
+            player_tags = goal_table_record_tag.findAll("a", {"class": "wichtig"})
+            for i in range(0, len(player_tags)):
+                # if even number - Goal
+                if i % 2 == 0:
+                    goal_player_ids.append((player_tags[i])['id'])
+                # if odd number - Assist
+                else:
+                    assist_player_ids.append((player_tags[i])['id'])
 
     return goal_player_ids, assist_player_ids
 
@@ -95,25 +129,27 @@ def get_hyperlinks_for_participating_players(participating_players_dicts, season
 def get_substitutions_in_and_out_player_ids_from_page_soup(page_soup):
     substitutions_table_tags = page_soup.find("div", {"id": "sb-wechsel"})
 
-    out_player_span_tags = substitutions_table_tags.findAll("span", {"class": "sb-aktion-wechsel-aus"})
-    in_player_span_tags = substitutions_table_tags.findAll("span", {"class": "sb-aktion-wechsel-ein"})
-
-    in_player_tags = []
-    out_player_tags = []
     in_player_ids = []
     out_player_ids = []
 
-    for in_player_span_tag in in_player_span_tags:
-        in_player_tags.extend(in_player_span_tag.findAll("a", {"class": "wichtig"}))
+    if substitutions_table_tags is not None:
+        out_player_span_tags = substitutions_table_tags.findAll("span", {"class": "sb-aktion-wechsel-aus"})
+        in_player_span_tags = substitutions_table_tags.findAll("span", {"class": "sb-aktion-wechsel-ein"})
 
-    for out_player_span_tag in out_player_span_tags:
-        out_player_tags.extend(out_player_span_tag.findAll("a", {"class": "wichtig"}))
+        in_player_tags = []
+        out_player_tags = []
 
-    for i in range(0, len(in_player_tags)):
-        in_player_ids.append((in_player_tags[i])['id'])
+        for in_player_span_tag in in_player_span_tags:
+            in_player_tags.extend(in_player_span_tag.findAll("a", {"class": "wichtig"}))
 
-    for i in range(0, len(out_player_tags)):
-        out_player_ids.append((out_player_tags[i])['id'])
+        for out_player_span_tag in out_player_span_tags:
+            out_player_tags.extend(out_player_span_tag.findAll("a", {"class": "wichtig"}))
+
+        for i in range(0, len(in_player_tags)):
+            in_player_ids.append((in_player_tags[i])['id'])
+
+        for i in range(0, len(out_player_tags)):
+            out_player_ids.append((out_player_tags[i])['id'])
 
     return in_player_ids, out_player_ids
 
@@ -124,9 +160,13 @@ def get_minutes_for_player(player_dict):
 
     page_soup = get_page_soup_from_hyperlink(hyperlink)
 
-    minutes = page_soup.find("a", {"id": match_id}).findParent().findParent().find("td", {"class": "rechts"}).getText()
+    match_tag = page_soup.find("a", {"id": match_id})
+    match_tag_parent = match_tag.findParent() if match_tag is not None else None
+    match_tag_next_parent = match_tag_parent.findParent() if match_tag_parent is not None else None
+    minutes_tag = match_tag_next_parent.find("td", {"class": "rechts"}) if match_tag_next_parent is not None else None
+    minutes = minutes_tag.getText() if minutes_tag is not None else 0
 
-    player_dict['minutes'] = int(minutes.split('\'')[0])
+    player_dict['minutes'] = int(minutes.split('\'')[0]) if (minutes and minutes != 0) else 0
 
     return player_dict
 
@@ -168,6 +208,9 @@ def create_assist(player, match):
 
 
 def create_match_player_relation(player, match, time):
+    if player is None or match is None:
+        return
+
     obj, created = MatchPlayer.objects.get_or_create(
         player=player,
         match=match,

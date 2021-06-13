@@ -7,7 +7,7 @@ from .services.team_service import *
 from .services.player_service import *
 from .services.player_attributes_service import *
 from .services.match_service import *
-from .services.match_event_service import create_events_for_all_matches
+from .services.match_event_service import *
 
 
 def index(request):
@@ -58,6 +58,6 @@ def match(request):
 
 
 def match_events(request):
-    create_events_for_all_matches()
+    create_events_for_not_fetched_matches()
     return HttpResponse("create_events_for_all_matches invoked")
 

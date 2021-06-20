@@ -17,10 +17,9 @@ def create_events_for_all_matches():
 def create_events_for_not_fetched_matches():
     attempts = 0
     not_fetched_matches = Match.objects.filter(are_event_fetched=False)
-    pool = get_pool()
 
     # Needed in case of connection refuse (too many requests)
-    while attempts < 100:
+    while attempts < 100 and len(not_fetched_matches) > 0:
         for match in not_fetched_matches:
             try:
                 create_events_for_match(match)
@@ -61,10 +60,7 @@ def create_events_for_match(match):
     for player_dict in participating_players_dicts:
         player_id = player_dict['player_id']
 
-        try:
-            player = Player.objects.get(transfermarkt_id=int(player_id))
-        except Player.DoesNotExist:
-            player = None
+        player = get_player_by_transfermarkt_id(player_id)
 
         create_match_player_relation(player, match, player_dict['minutes'])
 
@@ -171,40 +167,49 @@ def get_minutes_for_player(player_dict):
     return player_dict
 
 
+def get_player_by_transfermarkt_id(transfermarkt_id):
+    try:
+        player = Player.objects.get(transfermarkt_id=int(transfermarkt_id))
+    except Player.DoesNotExist:
+        player = None
+
+    return player
+
+
 def create_all_goals(goal_player_ids, match):
     for player_id in goal_player_ids:
-        player = Player.objects.get(transfermarkt_id=int(player_id))
+        player = get_player_by_transfermarkt_id(player_id)
         create_goal(player, match)
 
 
 def create_goal(player, match):
-    obj, created = Goal.objects.get_or_create(
+    if player is None or match is None:
+        return
+
+    obj = Goal.objects.create(
         player=player,
         match=match
     )
 
-    if created:
-        print("Goal by %s\t in match %s\t - CREATED" % (player, match.date))
-    else:
-        print("Goal by %s\t in match %s\t - EXISTS" % (player, match.date))
+    print("Goal by %s\t in match %s\t - CREATED" % (player, match.date))
 
 
 def create_all_assists(assist_player_ids, match):
     for player_id in assist_player_ids:
-        player = Player.objects.get(transfermarkt_id=int(player_id))
+        player = get_player_by_transfermarkt_id(player_id)
         create_assist(player, match)
 
 
 def create_assist(player, match):
-    obj, created = Assist.objects.get_or_create(
+    if player is None or match is None:
+        return
+
+    obj = Assist.objects.create(
         player=player,
         match=match
     )
 
-    if created:
-        print("Assist by %s\t in match %s\t - CREATED" % (player, match.date))
-    else:
-        print("Assist by %s\t in match %s\t - EXISTS" % (player, match.date))
+    print("Assist by %s\t in match %s\t - CREATED" % (player, match.date))
 
 
 def create_match_player_relation(player, match, time):

@@ -1,1 +1,7 @@
 <h1>{{ league.description }}</h1>
+<h2>Seasons:</h2>
+<ul>
+{% for season in league.season_set.all %}
+    <li><a href="/players/season/{{ season.id }}">{{ season.description }}</a></li>
+{% endfor %}
+</ul>

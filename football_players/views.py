@@ -94,6 +94,11 @@ def league_details(request, league_id):
     return render(request, 'players/league_details.html', {'league': league_obj})
 
 
+def season_details(request, season_id):
+    season_obj = get_object_or_404(Season, pk=season_id)
+    return render(request, 'players/season_details.html', {'season': season_obj})
+
+
 def player(request):
     all_players = Player.objects.all()
     template = loader.get_template('players/player.html')

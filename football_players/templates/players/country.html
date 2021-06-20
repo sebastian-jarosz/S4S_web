@@ -1,0 +1,9 @@
+{% if all_countries %}
+    <ul>
+    {% for country in all_countries %}
+        <li><a href="/players/country/{{ country.id }}/">{{ country.description }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No countries are available.</p>
+{% endif %}

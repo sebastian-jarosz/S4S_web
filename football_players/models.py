@@ -33,6 +33,9 @@ class Country(models.Model):
     transfermarkt_hyperlink = models.URLField(unique=True)
     is_excluded = models.BooleanField(default=False)
 
+    def get_not_excluded_leagues(self):
+        return self.league_set.filter(is_excluded=False)
+
 
 class League(models.Model):
     description = models.CharField(max_length=200)

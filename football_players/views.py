@@ -99,6 +99,11 @@ def season_details(request, season_id):
     return render(request, 'players/season_details.html', {'season': season_obj})
 
 
+def queue_details(request, queue_id):
+    queue_obj = get_object_or_404(Queue, pk=queue_id)
+    return render(request, 'players/queue_details.html', {'queue': queue_obj})
+
+
 def player(request):
     all_players = Player.objects.all()
     template = loader.get_template('players/player.html')

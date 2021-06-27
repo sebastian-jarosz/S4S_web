@@ -1,1 +1,10 @@
 <h1>{{ season.description }}</h1>
+<h2>Queues:</h2>
+{% if season.queue_set.all %}
+    {% for queue in season.queue_set.all %}
+        <li><a href="/players/queue/{{ queue.id }}">Queue nr {{ queue.number }}</a></li>
+    {% endfor %}
+{% else %}
+    <li>No matching queues</li>
+{% endif %}
+</ul>

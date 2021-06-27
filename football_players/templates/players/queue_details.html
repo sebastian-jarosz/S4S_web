@@ -3,7 +3,7 @@
 <h2>Matches:</h2>
 {% if queue.match_set.all %}
     {% for match in queue.match_set.all %}
-        <li><a href="/players/queue/{{ match.id }}">Match {{ match.first_team.name }} vs {{ match.second_team.name }} - {{ match.date }}</a></li>
+        <li><a href="/players/match/{{ match.id }}">Match {{ match.first_team.name }} vs {{ match.second_team.name }} - {{ match.date }}</a></li>
     {% endfor %}
 {% else %}
     <li>No matching matches</li>

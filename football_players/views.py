@@ -104,6 +104,11 @@ def queue_details(request, queue_id):
     return render(request, 'players/queue_details.html', {'queue': queue_obj})
 
 
+def match_details(request, match_id):
+    match_obj = get_object_or_404(Match, pk=match_id)
+    return render(request, 'players/match_details.html', {'match': match_obj})
+
+
 def player(request):
     all_players = Player.objects.all()
     template = loader.get_template('players/player.html')

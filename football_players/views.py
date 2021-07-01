@@ -106,7 +106,38 @@ def queue_details(request, queue_id):
 
 def match_details(request, match_id):
     match_obj = get_object_or_404(Match, pk=match_id)
-    return render(request, 'players/match_details.html', {'match': match_obj})
+    all_players_from_match = MatchPlayer.objects.filter(match=match_obj).values('player')
+
+    first_team_players = []
+    second_team_players = []
+
+    first_team_players_relations = PlayerTeam.objects.filter(team=match_obj.first_team, season=match_obj.queue.season)\
+        .filter(player__in=all_players_from_match)
+    second_team_players_relations = PlayerTeam.objects.filter(team=match_obj.second_team, season=match_obj.queue.season)\
+        .filter(player__in=all_players_from_match)
+
+    for player_team in first_team_players_relations:
+        first_team_players.append(player_team.player)
+
+    for player_team in second_team_players_relations:
+        second_team_players.append(player_team.player)
+
+    first_team_goals = match_obj.goal_set.filter(player__in=first_team_players)
+    second_team_goals = match_obj.goal_set.filter(player__in=second_team_players)
+
+    first_team_assists = match_obj.assist_set.filter(player__in=first_team_players)
+    second_team_assists = match_obj.assist_set.filter(player__in=second_team_players)
+
+    return render(request, 'players/match_details.html',
+                  {
+                      'match': match_obj,
+                      'first_team_players': first_team_players,
+                      'second_team_players': second_team_players,
+                      'first_team_goals': first_team_goals,
+                      'second_team_goals': second_team_goals,
+                      'first_team_assists': first_team_assists,
+                      'second_team_assists': second_team_assists
+                  })
 
 
 def player(request):

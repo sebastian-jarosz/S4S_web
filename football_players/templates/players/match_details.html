@@ -3,19 +3,57 @@
 <h3>Season: {{ match.queue.season.description }}</h3>
 <h3>Queue nr: {{ match.queue.number }}</h3>
 <h3><a href="{{ match.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h3>
-<h3>Goals:</h3>
-{% if match.goal_set.all %}
-    {% for goal in match.goal_set.all %}
-        <li>Goal by {{ goal.player }}</li>
+
+<h3>Goals for {{ match.first_team }}:</h3>
+{% if first_team_goals %}
+    {% for goal in first_team_goals %}
+        <li>Goal by <a href="/players/player/{{ goal.player.id }}">{{ goal.player }}</a></li>
     {% endfor %}
 {% else %}
-    <li>No goals in match</li>
+    <li>No goals for {{ match.first_team }}</li>
 {% endif %}
-<h3>Assists:</h3>
-{% if match.assist_set.all %}
-    {% for assist in match.assist_set.all %}
-        <li>Assist by {{ assist.player }}</li>
+
+<h3>Goals for {{ match.second_team }}:</h3>
+{% if second_team_goals %}
+    {% for goal in second_team_goals %}
+        <li>Goal by <a href="/players/player/{{ goal.player.id }}">{{ goal.player }}</a></li>
     {% endfor %}
 {% else %}
-    <li>No assists in match</li>
+    <li>No goals for {{ match.second_team }}</li>
+{% endif %}
+
+<h3>Assists for {{ match.first_team }}:</h3>
+{% if first_team_assists %}
+    {% for assist in first_team_assists %}
+        <li>Goal by <a href="/players/player/{{ goal.player.id }}">{{ assist.player }}</a></li>
+    {% endfor %}
+{% else %}
+    <li>No assists for {{ match.second_team }}</li>
+{% endif %}
+
+<h3>Assists for {{ match.second_team }}:</h3>
+{% if second_team_assists %}
+    {% for assist in second_team_assists %}
+        <li>Goal by <a href="/players/player/{{ goal.player.id }}">{{ assist.player }}</a></li>
+    {% endfor %}
+{% else %}
+    <li>No assists for {{ match.second_team }}</li>
+{% endif %}
+
+<h3>{{ match.first_team }} players:</h3>
+{% if first_team_players %}
+    {% for player in first_team_players %}
+        <li><a href="/players/player/{{ player.id }}">{{ player }}</a></li>
+    {% endfor %}
+{% else %}
+    <li>No players</li>
+{% endif %}
+
+<h3>{{ match.second_team }} players:</h3>
+{% if second_team_players %}
+    {% for player in second_team_players %}
+        <li><a href="/players/player/{{ player.id }}">{{ player }}</a></li>
+    {% endfor %}
+{% else %}
+    <li>No players</li>
 {% endif %}

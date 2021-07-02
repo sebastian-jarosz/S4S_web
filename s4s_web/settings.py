@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'football_players.apps.FootballPlayersConfig',
+    'django_tables2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

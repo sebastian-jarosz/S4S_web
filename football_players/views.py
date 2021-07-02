@@ -150,7 +150,16 @@ class AllPlayersView(SingleTableView):
 
 def player_details(request, player_id):
     player_obj = get_object_or_404(Player, pk=player_id)
-    return render(request, 'players/player_details.html', {'player': player_obj})
+
+    # extra_columns attr used to remove
+    goal_table = GoalTable(player_obj.get_all_goals(), extra_columns=(('player', None),))
+    assist_table = AssistTable(player_obj.get_all_assists(), extra_columns=(('player', None),))
+    return render(request, 'players/player_details.html',
+                  {
+                      'player': player_obj,
+                      'goal_table': goal_table,
+                      'assist_table': assist_table
+                  })
 
 
 def best_players(request):

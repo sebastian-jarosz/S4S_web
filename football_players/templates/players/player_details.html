@@ -1,3 +1,28 @@
-<h1>{{ player.first_name }}</h1>
-<h1>{{ player.last_name }}</h1>
-<h1>{{ player.date_of_birth }}</h1>
+<h1>{{ player }}</h1>
+<h3>Date of birth: {{ player.date_of_birth }}</h3>
+<h3>Position: {{ player.position }}</h3>
+<h3>Dominating foot: {{ player.foot }}</h3>
+<h3>Agency: {{ player.agency }}</h3>
+<h3><a href="{{ player.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h3>
+
+<h3>Goals:</h3>
+<h5>Amount: {{ player.goal_set.all|length }}</h5>
+{% if player.goal_set.all %}
+    {% for goal in player.goal_set.all %}
+        <li>Match <a href="/players/match/{{ goal.match.id }}">{{ goal.match.get_teams }}</a>
+            in season {{ goal.match.queue.season }}</li>
+    {% endfor %}
+{% else %}
+    <li>No goals for {{ player }}</li>
+{% endif %}
+
+<h3>Assists:</h3>
+<h5>Amount: {{ player.assist_set.all|length }}</h5>
+{% if player.assist_set.all %}
+    {% for assist in player.assist_set.all %}
+        <li>Match <a href="/players/match/{{ assist.match.id }}">{{ assist.match.get_teams }}</a>
+            in season {{ assist.match.queue.season }}</li>
+    {% endfor %}
+{% else %}
+    <li>No assists for {{ player }}</li>
+{% endif %}

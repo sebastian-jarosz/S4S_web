@@ -1,7 +1,13 @@
 {% if all_players %}
     <ul>
     {% for player in all_players %}
-        <li><a href="/players/player/{{ player.id }}/">{{ player }}</a></li>
+        <li>
+            <p style="display:inline"><a href="/players/player/{{ player.id }}/">{{ player }}</a></p>
+            <p style="display:inline">All goals amount: {{ player.goal_set.count }}</p>
+            <p style="display:inline">All assists amount: {{ player.assist_set.count }}</p>
+            <p style="display:inline">All matches amount: {{ player.matchplayer_set.count }}</p>
+            <p style="display:inline">Sum of time in matches: {{ player.get_time_sum_from_all_matches }}</p>
+        </li>
     {% endfor %}
     </ul>
 {% else %}

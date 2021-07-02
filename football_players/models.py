@@ -9,9 +9,15 @@ class ApplicationParameters(models.Model):
 class DominatingFoot(models.Model):
     description = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.description
+
 
 class ManagementAgency(models.Model):
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
 
 
 class Team(models.Model):
@@ -25,6 +31,9 @@ class Team(models.Model):
 
 class Position(models.Model):
     description = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.description
 
 
 class Country(models.Model):
@@ -44,6 +53,9 @@ class League(models.Model):
     is_excluded = models.BooleanField(default=False)
     country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
 
+    def __str__(self):
+        return self.description
+
 
 class Season(models.Model):
     description = models.CharField(max_length=200)
@@ -54,12 +66,18 @@ class Season(models.Model):
     all_teams_fetched = models.BooleanField(default=False)
     all_players_from_teams_fetched = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.description
+
 
 class Queue(models.Model):
     number = models.IntegerField()
     transfermarkt_hyperlink = models.CharField(max_length=200)
     are_matches_fetched = models.BooleanField(default=False)
     season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return str(self.season) + ' Queue ' + str(self.number)
 
 
 class Match(models.Model):
@@ -75,6 +93,9 @@ class Match(models.Model):
 
     def get_transfermarkt_id_as_string(self):
         return str(self.transfermarkt_hyperlink.rsplit('/', 1)[1])
+
+    def get_teams(self):
+        return str(self.first_team) + ' vs ' + str(self.second_team)
 
 
 class Player(models.Model):

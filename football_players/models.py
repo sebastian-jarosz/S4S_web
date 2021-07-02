@@ -89,14 +89,14 @@ class Match(models.Model):
     queue = models.ForeignKey(Queue, on_delete=models.DO_NOTHING)
     are_event_fetched = models.BooleanField(default=False)
 
+    def __str__(self):
+        return str(self.first_team) + ' vs ' + str(self.second_team)
+
     def get_season(self):
         return self.queue.season
 
     def get_transfermarkt_id_as_string(self):
         return str(self.transfermarkt_hyperlink.rsplit('/', 1)[1])
-
-    def get_teams(self):
-        return str(self.first_team) + ' vs ' + str(self.second_team)
 
 
 class Player(models.Model):
@@ -111,6 +111,12 @@ class Player(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name if self.last_name is not None else self.first_name
+
+    def get_all_goals(self):
+        return self.goal_set.all()
+
+    def get_all_assists(self):
+        return self.assist_set.all()
 
     def get_time_sum_from_all_matches(self):
         return self.matchplayer_set.all().aggregate(Sum('time'))['time__sum']

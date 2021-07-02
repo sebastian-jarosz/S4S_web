@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 
 
 class ApplicationParameters(models.Model):
@@ -110,6 +111,9 @@ class Player(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name if self.last_name is not None else self.first_name
+
+    def get_time_sum_from_all_matches(self):
+        return self.matchplayer_set.all().aggregate(Sum('time'))['time__sum']
 
 
 class TeamSeason(models.Model):

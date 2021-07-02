@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
-from .services.country_service import get_countries_from_file
+from django_tables2 import SingleTableView
+from .services.country_service import *
 from .services.league_service import *
 from .services.season_service import *
 from .services.queue_service import *
@@ -10,6 +11,7 @@ from .services.player_service import *
 from .services.player_attributes_service import *
 from .services.match_service import *
 from .services.match_event_service import *
+from .tables import *
 
 
 def index(request):
@@ -140,16 +142,24 @@ def match_details(request, match_id):
                   })
 
 
-def player(request):
-    all_players = Player.objects.all()
-    template = loader.get_template('players/player.html')
-    context = {
-        'all_players': all_players,
-    }
-    return HttpResponse(template.render(context, request))
+class AllPlayersView(SingleTableView):
+    model = Player
+    table_class = PlayerTable
+    template_name = 'players/player.html'
 
 
 def player_details(request, player_id):
     player_obj = get_object_or_404(Player, pk=player_id)
     return render(request, 'players/player_details.html', {'player': player_obj})
 
+
+def best_players(request):
+    all_players = Player.objects.all()
+    # all_players = Player.objects.filter(id=1)
+    return render(request, 'players/best_player.html', {'all_players': all_players})
+
+
+class BestPlayersView(SingleTableView):
+    model = Player
+    table_class = PlayerTable
+    template_name = 'players/best_player.html'

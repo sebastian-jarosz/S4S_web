@@ -6,7 +6,7 @@
 <h3><a href="{{ player.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h3>
 
 <h3>Goals:</h3>
-<h5>Amount: {{ player.goal_set.all|length }}</h5>
+<h5>Amount: {{ player.goal_set.count }}</h5>
 {% if player.goal_set.all %}
     {% for goal in player.goal_set.all %}
         <li>Match <a href="/players/match/{{ goal.match.id }}">{{ goal.match.get_teams }}</a>
@@ -17,7 +17,7 @@
 {% endif %}
 
 <h3>Assists:</h3>
-<h5>Amount: {{ player.assist_set.all|length }}</h5>
+<h5>Amount: {{ player.assist_set.count }}</h5>
 {% if player.assist_set.all %}
     {% for assist in player.assist_set.all %}
         <li>Match <a href="/players/match/{{ assist.match.id }}">{{ assist.match.get_teams }}</a>

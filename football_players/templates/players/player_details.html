@@ -1,28 +1,25 @@
-<h1>{{ player }}</h1>
-<h3>Date of birth: {{ player.date_of_birth }}</h3>
-<h3>Position: {{ player.position }}</h3>
-<h3>Dominating foot: {{ player.foot }}</h3>
-<h3>Agency: {{ player.agency }}</h3>
-<h3><a href="{{ player.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h3>
+{% load render_table from django_tables2 %}
 
-<h3>Goals:</h3>
-<h5>Amount: {{ player.goal_set.count }}</h5>
-{% if player.goal_set.all %}
-    {% for goal in player.goal_set.all %}
-        <li>Match <a href="/players/match/{{ goal.match.id }}">{{ goal.match.get_teams }}</a>
-            in season {{ goal.match.queue.season }}</li>
-    {% endfor %}
-{% else %}
-    <li>No goals for {{ player }}</li>
-{% endif %}
+<html>
+    <head>
+        <title>{{ player }}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    </head>
+    <body>
+        <h1>{{ player }}</h1>
+        <h4>Date of birth: {{ player.date_of_birth }}</h4>
+        <h4>Position: {{ player.position }}</h4>
+        <h4>Dominating foot: {{ player.foot }}</h4>
+        <h4>Agency: {{ player.agency }}</h4>
+        <h4><a href="{{ player.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h4>
 
-<h3>Assists:</h3>
-<h5>Amount: {{ player.assist_set.count }}</h5>
-{% if player.assist_set.all %}
-    {% for assist in player.assist_set.all %}
-        <li>Match <a href="/players/match/{{ assist.match.id }}">{{ assist.match.get_teams }}</a>
-            in season {{ assist.match.queue.season }}</li>
-    {% endfor %}
-{% else %}
-    <li>No assists for {{ player }}</li>
-{% endif %}
+        <h4>Goals:</h4>
+        <h5>Amount: {{ player.goal_set.count }}</h5>
+        {% render_table goal_table %}
+
+        <h3>Assists:</h3>
+        <h5>Amount: {{ player.assist_set.count }}</h5>
+        {% render_table assist_table %}
+
+    </body>
+</html>

@@ -20,6 +20,7 @@ urlpatterns = [
     path('season/<int:season_id>/', views.season_details, name="season details"),
     path('queue/<int:queue_id>/', views.queue_details, name="queue details"),
     path('match/<int:match_id>/', views.match_details, name="match details"),
-    path('player/', views.player, name="all player list"),
+    path('player/', views.AllPlayersView.as_view(), name="all player list"),
     path('player/<int:player_id>/', views.player_details, name="player details"),
+    path('best/', views.BestPlayersView.as_view(), name="all best players list"),
 ]

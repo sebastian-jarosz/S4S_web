@@ -152,8 +152,8 @@ def player_details(request, player_id):
     player_obj = get_object_or_404(Player, pk=player_id)
 
     # extra_columns attr used to remove
-    goal_table = GoalTable(player_obj.get_all_goals(), extra_columns=(('player', None),))
-    assist_table = AssistTable(player_obj.get_all_assists(), extra_columns=(('player', None),))
+    goal_table = GoalTable(player_obj.get_all_goals(), extra_columns=(('id', None), ('player', None),))
+    assist_table = AssistTable(player_obj.get_all_assists(), extra_columns=(('id', None), ('player', None),))
     return render(request, 'players/player_details.html',
                   {
                       'player': player_obj,

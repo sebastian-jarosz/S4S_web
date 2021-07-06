@@ -25,7 +25,7 @@
 <h3>Assists for {{ match.first_team }}:</h3>
 {% if first_team_assists %}
     {% for assist in first_team_assists %}
-        <li>Assist by <a href="/players/player/{{ goal.player.id }}">{{ assist.player }}</a></li>
+        <li>Assist by <a href="/players/player/{{ assist.player.id }}">{{ assist.player }}</a></li>
     {% endfor %}
 {% else %}
     <li>No assists for {{ match.second_team }}</li>

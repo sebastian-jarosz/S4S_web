@@ -130,15 +130,25 @@ def match_details(request, match_id):
     first_team_assists = match_obj.assist_set.filter(player__in=first_team_players)
     second_team_assists = match_obj.assist_set.filter(player__in=second_team_players)
 
+    # Players Tables
+    first_team_players_table = PlayerTable(first_team_players, extra_columns=(('id', None),))
+    second_team_players_table = PlayerTable(second_team_players, extra_columns=(('id', None),))
+    # Goals Tables
+    first_team_goals_table = GoalTable(first_team_goals, extra_columns=(('id', None),)) if first_team_goals else None
+    second_team_goals_table = GoalTable(second_team_goals, extra_columns=(('id', None),)) if second_team_goals else None
+    # Assist Tables
+    first_team_assists_table = AssistTable(first_team_assists, extra_columns=(('id', None), )) if first_team_assists else None
+    second_team_assists_table = AssistTable(second_team_assists, extra_columns=(('id', None), )) if second_team_assists else None
+
     return render(request, 'players/match_details.html',
                   {
                       'match': match_obj,
-                      'first_team_players': first_team_players,
-                      'second_team_players': second_team_players,
-                      'first_team_goals': first_team_goals,
-                      'second_team_goals': second_team_goals,
-                      'first_team_assists': first_team_assists,
-                      'second_team_assists': second_team_assists
+                      'first_team_players_table': first_team_players_table,
+                      'second_team_players_table': second_team_players_table,
+                      'first_team_goals_table': first_team_goals_table,
+                      'second_team_goals_table': second_team_goals_table,
+                      'first_team_assists_table': first_team_assists_table,
+                      'second_team_assists_table': second_team_assists_table
                   })
 
 

@@ -53,14 +53,15 @@ def get_date_of_birth_from_page_soup(page_soup):
         date_of_birth_text = page_soup.find("span", {"itemprop": "birthDate"}).text.strip().split('(')[0].strip()
         date_of_birth = parse_transfermarkt_date(date_of_birth_text)
     except Exception:
-        date_of_birth = const.NO_INFORMATION
+        date_of_birth = None
 
     return date_of_birth
 
 
 def get_position_from_page_soup(page_soup):
     # Get span with text "Position:" then get next span with actual position of player, then stip spaces
-    position_description = page_soup.find("span", text="Position:").findNext("span").text.strip()
+    position_tag = page_soup.find("span", text="Position:")
+    position_description = position_tag.findNext("span").text.strip() if position_tag is not None else const.NO_INFORMATION
 
     position, created = Position.objects.get_or_create(
         defaults={
@@ -76,14 +77,9 @@ def get_position_from_page_soup(page_soup):
 
 
 def get_management_agency_from_page_soup(page_soup):
-    # Get span with text "Agent:", get next span with actual player agency,
-    # then strip spaces (try in case there is an agent)
     try:
-        management_agency_description = page_soup.find("span", text="Agent:").findNext("span").text.strip()
-        if management_agency_description.endswith("..."):
-            management_agency_description = page_soup.find("span", text="Agent:").findNext("a")["title"]
-            if management_agency_description.startswith("<span"):
-                management_agency_description = management_agency_description.split("\"")[3]
+        agent_tag = page_soup.find("th", text="Player agent:")
+        management_agency_description = agent_tag.findNext("td").text.strip() if agent_tag is not None else const.NO_INFORMATION
     except Exception:
         management_agency_description = const.NO_INFORMATION
 

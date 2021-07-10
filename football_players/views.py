@@ -69,7 +69,7 @@ def match_events_service(request):
 def country(request):
     # Only not excluded countries are listed
     all_countries = Country.objects.filter(is_excluded=False)
-    country_table = CountryTable(all_countries, extra_columns=(('id', None), ))
+    country_table = CountryTable(all_countries, extra_columns=(('id', None), ('is_excluded', None)))
     return render(request, 'players/country.html', {'country_table': country_table})
 
 

@@ -4,6 +4,12 @@ from django_tables2 import A
 from .models import *
 
 
+class CountryTable(tables.Table):
+    class Meta:
+        model = Country
+        template_name = "django_tables2/bootstrap.html"
+
+
 class PlayerTable(tables.Table):
     class Meta:
         model = Player

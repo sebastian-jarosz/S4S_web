@@ -69,14 +69,16 @@ def match_events_service(request):
 def country(request):
     # Only not excluded countries are listed
     all_countries = Country.objects.filter(is_excluded=False)
-    country_table = CountryTable(all_countries, extra_columns=(('id', None), ('is_excluded', None)))
+    country_table = CountryTable(all_countries,
+                                 extra_columns=(('id', None), ('transfermarkt_id', None), ('is_excluded', None)))
     return render(request, 'players/country.html', {'country_table': country_table})
 
 
 def country_details(request, country_id):
     country_obj = get_object_or_404(Country, pk=country_id)
     leagues_table = LeagueTable(country_obj.get_not_excluded_leagues(),
-                                extra_columns=(('id', None), ('is_excluded', None)))
+                                extra_columns=(('id', None), ('is_excluded', None),
+                                               ('transfermarkt_id', None), ('country', None),))
     return render(request, 'players/country_details.html',
                   {
                       'country': country_obj,
@@ -93,7 +95,7 @@ def league(request):
 
 def league_details(request, league_id):
     league_obj = get_object_or_404(League, pk=league_id)
-    seasons_table = SeasonTable(league_obj.get_all_seasons(), extra_columns=(('id', None), ))
+    seasons_table = SeasonTable(league_obj.get_all_seasons(), extra_columns=(('id', None), ('league', None), ))
     return render(request, 'players/league_details.html',
                   {
                       'league': league_obj,
@@ -103,7 +105,7 @@ def league_details(request, league_id):
 
 def season_details(request, season_id):
     season_obj = get_object_or_404(Season, pk=season_id)
-    queues_table = QueueTable(season_obj.get_all_queues(), extra_columns=(('id', None), ))
+    queues_table = QueueTable(season_obj.get_all_queues(), extra_columns=(('id', None), ('season', None), ))
     return render(request, 'players/season_details.html',
                   {
                       'season': season_obj,
@@ -114,7 +116,8 @@ def season_details(request, season_id):
 def queue_details(request, queue_id):
     queue_obj = get_object_or_404(Queue, pk=queue_id)
     matches_table = MatchTable(queue_obj.get_all_matches(),
-                               extra_columns=(('id', None), ('first_team', None), ('second_team', None),))
+                               extra_columns=(('id', None), ('first_team', None), ('second_team', None),
+                                              ('queue', None)))
     return render(request, 'players/queue_details.html',
                   {
                       'queue': queue_obj,
@@ -147,8 +150,8 @@ def match_details(request, match_id):
     second_team_assists = match_obj.assist_set.filter(player__in=second_team_players)
 
     # Players Tables
-    first_team_players_table = PlayerTable(first_team_players, extra_columns=(('id', None),))
-    second_team_players_table = PlayerTable(second_team_players, extra_columns=(('id', None),))
+    first_team_players_table = PlayerTable(first_team_players, extra_columns=(('id', None), ('transfermarkt_id', None)))
+    second_team_players_table = PlayerTable(second_team_players, extra_columns=(('id', None), ('transfermarkt_id', None)))
     # Goals Tables
     first_team_goals_table = GoalTable(first_team_goals, extra_columns=(('id', None),)) if first_team_goals else None
     second_team_goals_table = GoalTable(second_team_goals, extra_columns=(('id', None),)) if second_team_goals else None

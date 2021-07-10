@@ -46,6 +46,9 @@ class Country(models.Model):
     def get_not_excluded_leagues(self):
         return self.league_set.filter(is_excluded=False)
 
+    def __str__(self):
+        return self.description
+
 
 class League(models.Model):
     description = models.CharField(max_length=200)

@@ -14,6 +14,7 @@ class CountryTable(tables.Table):
 
 class LeagueTable(tables.Table):
     description = tables.LinkColumn('league details', args=[A('id')])
+    country = tables.LinkColumn('country details', args=[A('country.id')])
 
     class Meta:
         model = League
@@ -22,6 +23,7 @@ class LeagueTable(tables.Table):
 
 class SeasonTable(tables.Table):
     description = tables.LinkColumn('season details', args=[A('id')])
+    league = tables.LinkColumn('league details', args=[A('league.id')])
 
     class Meta:
         model = Season
@@ -39,6 +41,8 @@ class QueueTable(tables.Table):
 class MatchTable(tables.Table):
     match = tables.LinkColumn('match details', args=[A('id')],
                               text=lambda record: '{0} vs. {1}'.format(record.first_team, record.second_team))
+    queue = tables.LinkColumn('queue details', args=[A('queue.id')])
+
 
     class Meta:
         model = Match

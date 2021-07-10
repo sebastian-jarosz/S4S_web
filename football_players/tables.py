@@ -5,6 +5,8 @@ from .models import *
 
 
 class CountryTable(tables.Table):
+    description = tables.LinkColumn('country details', args=[A('id')])
+
     class Meta:
         model = Country
         template_name = "django_tables2/bootstrap.html"

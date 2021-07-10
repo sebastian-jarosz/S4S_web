@@ -1,7 +1,12 @@
-<h1>{{ league.description }}</h1>
-<h2>Seasons:</h2>
-<ul>
-{% for season in league.season_set.all %}
-    <li><a href="/players/season/{{ season.id }}">{{ season.description }}</a></li>
-{% endfor %}
-</ul>
+{% load render_table from django_tables2 %}
+<!doctype html>
+<html>
+    <head>
+        <title>List of seasons for {{ league.description }}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <h1>{{ league.description }}</h1>
+        {% render_table seasons_table %}
+    </body>
+</html>

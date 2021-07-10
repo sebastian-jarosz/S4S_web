@@ -57,6 +57,9 @@ class League(models.Model):
     def __str__(self):
         return self.description
 
+    def get_all_seasons(self):
+        return self.season_set.all()
+
 
 class Season(models.Model):
     description = models.CharField(max_length=200)

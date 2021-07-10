@@ -92,7 +92,13 @@ def league(request):
 
 def league_details(request, league_id):
     league_obj = get_object_or_404(League, pk=league_id)
-    return render(request, 'players/league_details.html', {'league': league_obj})
+    seasons_table = SeasonTable(league_obj.get_all_seasons(),
+                                extra_columns=(('id', None), ('transfermarkt_id', None), ('is_excluded', None)))
+    return render(request, 'players/league_details.html',
+                  {
+                      'league': league_obj,
+                      'seasons_table': seasons_table
+                  })
 
 
 def season_details(request, season_id):

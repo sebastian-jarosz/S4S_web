@@ -20,6 +20,14 @@ class LeagueTable(tables.Table):
         template_name = "django_tables2/bootstrap.html"
 
 
+class SeasonTable(tables.Table):
+    description = tables.LinkColumn('season details', args=[A('id')])
+
+    class Meta:
+        model = Country
+        template_name = "django_tables2/bootstrap.html"
+
+
 class PlayerTable(tables.Table):
     class Meta:
         model = Player

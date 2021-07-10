@@ -1,7 +1,12 @@
-<h1>{{ country.description }}</h1>
-<h2>Leagues:</h2>
-<ul>
-{% for league in country.get_not_excluded_leagues %}
-    <li><a href="/players/league/{{ league.id }}">{{ league.description }}</a></li>
-{% endfor %}
-</ul>
+{% load render_table from django_tables2 %}
+<!doctype html>
+<html>
+    <head>
+        <title>List of legues for {{ country.description }}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <h1>{{ country.description }}</h1>
+        {% render_table leagues_table %}
+    </body>
+</html>

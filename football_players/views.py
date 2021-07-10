@@ -75,7 +75,12 @@ def country(request):
 
 def country_details(request, country_id):
     country_obj = get_object_or_404(Country, pk=country_id)
-    return render(request, 'players/country_details.html', {'country': country_obj})
+    leagues_table = LeagueTable(country_obj.get_not_excluded_leagues(), extra_columns=(('id', None), ))
+    return render(request, 'players/country_details.html',
+                  {
+                      'country': country_obj,
+                      'leagues_table': leagues_table
+                  })
 
 
 def league(request):

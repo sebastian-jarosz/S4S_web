@@ -36,6 +36,17 @@ class QueueTable(tables.Table):
         template_name = "django_tables2/bootstrap.html"
 
 
+class MatchTable(tables.Table):
+    match = tables.LinkColumn('match details', args=[A('id')],
+                              text=lambda record: '{0} vs. {1}'.format(record.first_team, record.second_team))
+
+    class Meta:
+        model = Match
+        # Change order of columns - match (explicitly created), rest of columns from DB
+        sequence = ('match', '...')
+        template_name = "django_tables2/bootstrap.html"
+
+
 class PlayerTable(tables.Table):
     class Meta:
         model = Player

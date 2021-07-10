@@ -86,6 +86,9 @@ class Queue(models.Model):
     def __str__(self):
         return str(self.season) + ' Queue ' + str(self.number)
 
+    def get_all_matches(self):
+        return self.match_set.all()
+
 
 class Match(models.Model):
     first_team = models.ForeignKey(Team, on_delete=models.DO_NOTHING, related_name="first_team")

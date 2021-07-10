@@ -113,7 +113,13 @@ def season_details(request, season_id):
 
 def queue_details(request, queue_id):
     queue_obj = get_object_or_404(Queue, pk=queue_id)
-    return render(request, 'players/queue_details.html', {'queue': queue_obj})
+    matches_table = MatchTable(queue_obj.get_all_matches(),
+                               extra_columns=(('id', None), ('first_team', None), ('second_team', None),))
+    return render(request, 'players/queue_details.html',
+                  {
+                      'queue': queue_obj,
+                      'matches_table': matches_table
+                  })
 
 
 def match_details(request, match_id):

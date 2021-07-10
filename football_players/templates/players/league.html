@@ -1,9 +1,12 @@
-{% if all_leagues %}
-    <ul>
-    {% for league in all_leagues %}
-        <li><a href="/players/league/{{ league.id }}/">{{ league.description }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No leagues are available.</p>
-{% endif %}
+{% load render_table from django_tables2 %}
+<!doctype html>
+<html>
+    <head>
+        <title>List of leagues</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <h1>Countries</h1>
+        {% render_table league_table %}
+    </body>
+</html>

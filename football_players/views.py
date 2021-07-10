@@ -86,11 +86,8 @@ def country_details(request, country_id):
 def league(request):
     # Only not excluded leagues are listed
     all_leagues = League.objects.filter(is_excluded=False)
-    template = loader.get_template('players/league.html')
-    context = {
-        'all_leagues': all_leagues,
-    }
-    return HttpResponse(template.render(context, request))
+    league_table = LeagueTable(all_leagues, extra_columns=(('id', None), ))
+    return render(request, 'players/league.html', {'league_table': league_table})
 
 
 def league_details(request, league_id):

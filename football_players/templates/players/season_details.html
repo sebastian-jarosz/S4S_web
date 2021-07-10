@@ -1,10 +1,13 @@
-<h1>{{ season.description }}</h1>
-<h2>Queues:</h2>
-{% if season.queue_set.all %}
-    {% for queue in season.queue_set.all %}
-        <li><a href="/players/queue/{{ queue.id }}">Queue nr {{ queue.number }}</a></li>
-    {% endfor %}
-{% else %}
-    <li>No matching queues</li>
-{% endif %}
-</ul>
+{% load render_table from django_tables2 %}
+<!doctype html>
+<html>
+    <head>
+        <title>List of queues for {{ season.description }}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <h1>{{ season.description }}</h1>
+        <h3>Queues:</h3>
+        {% render_table queues_table %}
+    </body>
+</html>

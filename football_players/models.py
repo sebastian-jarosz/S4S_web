@@ -73,10 +73,13 @@ class Season(models.Model):
     def __str__(self):
         return self.description
 
+    def get_all_queues(self):
+        return self.queue_set.all()
+
 
 class Queue(models.Model):
     number = models.IntegerField()
-    transfermarkt_hyperlink = models.CharField(max_length=200)
+    transfermarkt_hyperlink = models.URLField(max_length=200)
     are_matches_fetched = models.BooleanField(default=False)
     season = models.ForeignKey(Season, on_delete=models.DO_NOTHING)
 

@@ -93,8 +93,7 @@ def league(request):
 
 def league_details(request, league_id):
     league_obj = get_object_or_404(League, pk=league_id)
-    seasons_table = SeasonTable(league_obj.get_all_seasons(),
-                                extra_columns=(('id', None), ('transfermarkt_id', None), ('is_excluded', None)))
+    seasons_table = SeasonTable(league_obj.get_all_seasons(), extra_columns=(('id', None), ))
     return render(request, 'players/league_details.html',
                   {
                       'league': league_obj,
@@ -104,7 +103,12 @@ def league_details(request, league_id):
 
 def season_details(request, season_id):
     season_obj = get_object_or_404(Season, pk=season_id)
-    return render(request, 'players/season_details.html', {'season': season_obj})
+    queues_table = QueueTable(season_obj.get_all_queues(), extra_columns=(('id', None), ))
+    return render(request, 'players/season_details.html',
+                  {
+                      'season': season_obj,
+                      'queues_table': queues_table
+                  })
 
 
 def queue_details(request, queue_id):

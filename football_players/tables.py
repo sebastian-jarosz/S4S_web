@@ -16,7 +16,7 @@ class LeagueTable(tables.Table):
     description = tables.LinkColumn('league details', args=[A('id')])
 
     class Meta:
-        model = Country
+        model = League
         template_name = "django_tables2/bootstrap.html"
 
 
@@ -24,7 +24,15 @@ class SeasonTable(tables.Table):
     description = tables.LinkColumn('season details', args=[A('id')])
 
     class Meta:
-        model = Country
+        model = Season
+        template_name = "django_tables2/bootstrap.html"
+
+
+class QueueTable(tables.Table):
+    number = tables.LinkColumn('queue details', args=[A('id')], text=lambda record: 'Queue {0}'.format(record.number))
+
+    class Meta:
+        model = Queue
         template_name = "django_tables2/bootstrap.html"
 
 

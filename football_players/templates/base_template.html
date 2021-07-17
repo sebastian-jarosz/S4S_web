@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+    <!-- Whole block will be replaced by Child Code -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    {% block custom_css %}{% endblock custom_css %}
+</head>
+<body>
+{% block body_data %}{% endblock body_data %}
+
+{% block custom_js %}{% endblock custom_js %}
+</body>
+</html>

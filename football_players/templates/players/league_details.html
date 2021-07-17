@@ -1,13 +1,12 @@
+{% extends 'base_template.html' %}
 {% load render_table from django_tables2 %}
-<!doctype html>
-<html>
-    <head>
-        <title>List of seasons for {{ league.description }}</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    </head>
-    <body>
-        <h1>{{ league.description }}</h1>
-        <h3>Seasons:</h3>
-        {% render_table seasons_table %}
-    </body>
-</html>
+
+{% block title %}
+List of seasons - {{ league.description }}
+{% endblock title %}
+
+{% block body_data %}
+    <h1>{{ league.description }}</h1>
+    <h3>Seasons:</h3>
+    {% render_table seasons_table %}
+{% endblock body_data %}

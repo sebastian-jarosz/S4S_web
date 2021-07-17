@@ -1,25 +1,23 @@
+{% extends 'base_template.html' %}
 {% load render_table from django_tables2 %}
 
-<html>
-    <head>
-        <title>{{ player }}</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    </head>
-    <body>
-        <h1>{{ player }}</h1>
-        <h4>Date of birth: {{ player.date_of_birth }}</h4>
-        <h4>Position: {{ player.position }}</h4>
-        <h4>Dominating foot: {{ player.foot }}</h4>
-        <h4>Agency: {{ player.agency }}</h4>
-        <h4><a href="{{ player.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h4>
+{% block title %}
+Player - {{ player }}
+{% endblock title %}
 
-        <h4>Goals:</h4>
-        <h5>Amount: {{ player.goal_set.count }}</h5>
-        {% render_table goal_table %}
+{% block body_data %}
+    <h1>{{ player }}</h1>
+    <h4>Date of birth: {{ player.date_of_birth }}</h4>
+    <h4>Position: {{ player.position }}</h4>
+    <h4>Dominating foot: {{ player.foot }}</h4>
+    <h4>Agency: {{ player.agency }}</h4>
+    <h4><a href="{{ player.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h4>
 
-        <h3>Assists:</h3>
-        <h5>Amount: {{ player.assist_set.count }}</h5>
-        {% render_table assist_table %}
+    <h4>Goals:</h4>
+    <h5>Amount: {{ player.goal_set.count }}</h5>
+    {% render_table goal_table %}
 
-    </body>
-</html>
+    <h3>Assists:</h3>
+    <h5>Amount: {{ player.assist_set.count }}</h5>
+    {% render_table assist_table %}
+{% endblock body_data %}

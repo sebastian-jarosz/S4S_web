@@ -1,49 +1,48 @@
+{% extends 'base_template.html' %}
 {% load render_table from django_tables2 %}
-<html>
-    <head>
-        <title>{{ match }}</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    </head>
-    <body>
-        <h1>{{ match.first_team }} vs {{ match.second_team }}</h1>
-        <h3>Date: {{ match.date }}</h3>
-        <h3>Season: {{ match.queue.season.description }}</h3>
-        <h3>Queue nr: {{ match.queue.number }}</h3>
-        <h3><a href="{{ match.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h3>
 
-        <h3>Goals for {{ match.first_team }}:</h3>
-        {% if first_team_goals_table %}
-            {% render_table first_team_goals_table %}
-        {% else %}
-            <li>No goals for {{ match.first_team }}</li>
-        {% endif %}
+{% block title %}
+Match - {{ match }}
+{% endblock title %}
 
-        <h3>Goals for {{ match.second_team }}:</h3>
-        {% if second_team_goals_table %}
-            {% render_table second_team_goals_table %}
-        {% else %}
-            <li>No goals for {{ match.second_team }}</li>
-        {% endif %}
+{% block body_data %}
+    <h1>{{ match.first_team }} vs {{ match.second_team }}</h1>
+    <h3>Date: {{ match.date }}</h3>
+    <h3>Season: {{ match.queue.season.description }}</h3>
+    <h3>Queue nr: {{ match.queue.number }}</h3>
+    <h3><a href="{{ match.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h3>
 
-        <h3>Assists for {{ match.first_team }}:</h3>
-        {% if first_team_assists_table %}
-            {% render_table first_team_assists_table %}
-        {% else %}
-            <li>No assists for {{ match.first_team }}</li>
-        {% endif %}
+    <h3>Goals for {{ match.first_team }}:</h3>
+    {% if first_team_goals_table %}
+        {% render_table first_team_goals_table %}
+    {% else %}
+        <li>No goals for {{ match.first_team }}</li>
+    {% endif %}
 
-        <h3>Assists for {{ match.second_team }}:</h3>
-        {% if second_team_assists_table %}
-            {% render_table second_team_assists_table %}
-        {% else %}
-            <li>No assists for {{ match.second_team }}</li>
-        {% endif %}
+    <h3>Goals for {{ match.second_team }}:</h3>
+    {% if second_team_goals_table %}
+        {% render_table second_team_goals_table %}
+    {% else %}
+        <li>No goals for {{ match.second_team }}</li>
+    {% endif %}
 
-        <h3>{{ match.first_team }} players:</h3>
-        {% render_table first_team_players_table %}
+    <h3>Assists for {{ match.first_team }}:</h3>
+    {% if first_team_assists_table %}
+        {% render_table first_team_assists_table %}
+    {% else %}
+        <li>No assists for {{ match.first_team }}</li>
+    {% endif %}
 
-        <h3>{{ match.second_team }} players:</h3>
-        {% render_table second_team_players_table %}
+    <h3>Assists for {{ match.second_team }}:</h3>
+    {% if second_team_assists_table %}
+        {% render_table second_team_assists_table %}
+    {% else %}
+        <li>No assists for {{ match.second_team }}</li>
+    {% endif %}
 
-    </body>
-</html>
+    <h3>{{ match.first_team }} players:</h3>
+    {% render_table first_team_players_table %}
+
+    <h3>{{ match.second_team }} players:</h3>
+    {% render_table second_team_players_table %}
+{% endblock body_data %}

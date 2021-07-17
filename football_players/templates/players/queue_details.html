@@ -1,14 +1,13 @@
+{% extends 'base_template.html' %}
 {% load render_table from django_tables2 %}
-<!doctype html>
-<html>
-    <head>
-        <title>List of matches for queue {{ queue.number }} in {{ queue.season }}</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    </head>
-    <body>
-        <h1>Queue {{ queue.number }}</h1>
-        <h3>Season {{ queue.season }}</h3>
-        <h3>Matches:</h3>
-        {% render_table matches_table %}
-    </body>
-</html>
+
+{% block title %}
+List of matches - Queue {{ queue.number }} - {{ queue.season }}
+{% endblock title %}
+
+{% block body_data %}
+    <h1>Season {{ queue.season }}</h1>
+    <h3>Queue {{ queue.number }}</h3>
+    <h3>Matches:</h3>
+    {% render_table matches_table %}
+{% endblock body_data %}

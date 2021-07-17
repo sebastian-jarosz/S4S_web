@@ -43,7 +43,6 @@ class MatchTable(tables.Table):
                               text=lambda record: '{0} vs. {1}'.format(record.first_team, record.second_team))
     queue = tables.LinkColumn('queue details', args=[A('queue.id')])
 
-
     class Meta:
         model = Match
         # Change order of columns - match (explicitly created), rest of columns from DB
@@ -52,8 +51,13 @@ class MatchTable(tables.Table):
 
 
 class PlayerTable(tables.Table):
+    player = tables.LinkColumn('player details', args=[A('id')],
+                               text=lambda record: '{0} {1}'.format(record.first_name, record.last_name))
+
     class Meta:
         model = Player
+        # Change order of columns - match (explicitly created), rest of columns from DB
+        sequence = ('player', '...')
         template_name = "django_tables2/bootstrap.html"
 
 

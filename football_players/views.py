@@ -150,8 +150,10 @@ def match_details(request, match_id):
     second_team_assists = match_obj.assist_set.filter(player__in=second_team_players)
 
     # Players Tables
-    first_team_players_table = PlayerTable(first_team_players, extra_columns=(('id', None), ('transfermarkt_id', None)))
-    second_team_players_table = PlayerTable(second_team_players, extra_columns=(('id', None), ('transfermarkt_id', None)))
+    first_team_players_table = PlayerTable(first_team_players, extra_columns=(('id', None), ('transfermarkt_id', None),
+                                                                              ('first_name', None), ('last_name', None)))
+    second_team_players_table = PlayerTable(second_team_players, extra_columns=(('id', None), ('transfermarkt_id', None),
+                                                                                ('first_name', None), ('last_name', None)))
     # Goals Tables
     first_team_goals_table = GoalTable(first_team_goals, extra_columns=(('id', None),)) if first_team_goals else None
     second_team_goals_table = GoalTable(second_team_goals, extra_columns=(('id', None),)) if second_team_goals else None

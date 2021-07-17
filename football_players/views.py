@@ -155,11 +155,15 @@ def match_details(request, match_id):
     second_team_players_table = PlayerTable(second_team_players, extra_columns=(('id', None), ('transfermarkt_id', None),
                                                                                 ('first_name', None), ('last_name', None)))
     # Goals Tables
-    first_team_goals_table = GoalTable(first_team_goals, extra_columns=(('id', None),)) if first_team_goals else None
-    second_team_goals_table = GoalTable(second_team_goals, extra_columns=(('id', None),)) if second_team_goals else None
+    first_team_goals_table = GoalTable(first_team_goals,
+                                       extra_columns=(('id', None), ('match', None))) if first_team_goals else None
+    second_team_goals_table = GoalTable(second_team_goals,
+                                        extra_columns=(('id', None), ('match', None))) if second_team_goals else None
     # Assist Tables
-    first_team_assists_table = AssistTable(first_team_assists, extra_columns=(('id', None), )) if first_team_assists else None
-    second_team_assists_table = AssistTable(second_team_assists, extra_columns=(('id', None), )) if second_team_assists else None
+    first_team_assists_table = AssistTable(first_team_assists,
+                                           extra_columns=(('id', None), ('match', None))) if first_team_assists else None
+    second_team_assists_table = AssistTable(second_team_assists,
+                                            extra_columns=(('id', None), ('match', None))) if second_team_assists else None
 
     return render(request, 'players/match_details.html',
                   {

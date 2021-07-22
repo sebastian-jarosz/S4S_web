@@ -1,32 +1,40 @@
-<!-- Header -->
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{% url 'index' %}">S4S Web</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="{% url 'index' %}">Home</a></li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Data
-                <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{% url 'all countries list' %}">Countries</a></li>
-                    <li><a href="{% url 'all leagues list' %}">Leagues</a></li>
-                </ul>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'index' %}">S4S Web</a>
+    </div>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navdatadrop" data-toggle="dropdown">
+                    Data
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'all countries list' %}">Countries</a>
+                    <a class="dropdown-item" href="{% url 'all leagues list' %}">Leagues</a>
+                </div>
             </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Services
-                <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                <li><a href="#">Country Service</a></li>
-                <li><a href="#">League Service</a></li>
-                <li><a href="#">Season Service</a></li>
-                <li><a href="#">Queue Service</a></li>
-                <li><a href="#">Team Service</a></li>
-                <li><a href="#">Match Services</a></li>
-                <li><a href="#">Player Services</a></li>
-                </ul>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navservicesdrop" data-toggle="dropdown">
+                    Services
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Country Service</a>
+                    <a class="dropdown-item" href="#">League Service</a>
+                    <a class="dropdown-item" href="#">Season Service</a>
+                    <a class="dropdown-item" href="#">Queue Service</a>
+                    <a class="dropdown-item" href="#">Team Service</a>
+                    <a class="dropdown-item" href="#">Match Services</a>
+                    <a class="dropdown-item" href="#">Player Services</a>
+                </div>
             </li>
         </ul>
-</div>
+    </div>
 </nav>

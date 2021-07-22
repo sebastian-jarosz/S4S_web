@@ -10,9 +10,9 @@ def get_countries_from_file():
     # print(sys.path)
     html_path = os.path.realpath(__file__)
     if platform == "darwin":
-        html_path = html_path.rsplit('/', 1)[0] + "/resources/transfermarkt.html"
+        html_path = html_path.rsplit('/', 2)[0] + "/resources/transfermarkt.html"
     if platform == "win32":
-        html_path = html_path.rsplit('\\', 1)[0] + "\\resources\\transfermarkt.html"
+        html_path = html_path.rsplit('\\', 2)[0] + "\\resources\\transfermarkt.html"
 
     page_soup = get_page_soup_from_file(html_path)
 

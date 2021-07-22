@@ -15,7 +15,7 @@ from .tables import *
 
 
 def index(request):
-    return HttpResponse("Hello, this is our football app")
+    return render(request, 'index.html')
 
 
 def country_service(request):
@@ -89,7 +89,8 @@ def country_details(request, country_id):
 def league(request):
     # Only not excluded leagues are listed
     all_leagues = League.objects.filter(is_excluded=False)
-    league_table = LeagueTable(all_leagues, extra_columns=(('id', None), ))
+    league_table = LeagueTable(all_leagues,
+                               extra_columns=(('id', None), ('transfermarkt_id', None), ('is_excluded', None),))
     return render(request, 'players/league.html', {'league_table': league_table})
 
 

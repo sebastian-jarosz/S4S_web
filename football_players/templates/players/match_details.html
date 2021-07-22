@@ -10,7 +10,7 @@ Match - {{ match }}
     <h3>Date: {{ match.date }}</h3>
     <h3>Season: {{ match.queue.season.description }}</h3>
     <h3>Queue nr: {{ match.queue.number }}</h3>
-    <h3><a href="{{ match.transfermarkt_hyperlink }}">Transfermarkt Hyperlink</a></h3>
+    <h3><a href="{{ match.transfermarkt_hyperlink }}" target="_blank">Transfermarkt Hyperlink</a></h3>
 
     <h3>Goals for {{ match.first_team }}:</h3>
     {% if first_team_goals_table %}

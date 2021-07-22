@@ -6,6 +6,7 @@ from .models import *
 
 class CountryTable(tables.Table):
     description = tables.LinkColumn('country details', args=[A('id')])
+    transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
     class Meta:
         model = Country
@@ -15,6 +16,7 @@ class CountryTable(tables.Table):
 class LeagueTable(tables.Table):
     description = tables.LinkColumn('league details', args=[A('id')])
     country = tables.LinkColumn('country details', args=[A('country.id')])
+    transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
     class Meta:
         model = League
@@ -24,6 +26,7 @@ class LeagueTable(tables.Table):
 class SeasonTable(tables.Table):
     description = tables.LinkColumn('season details', args=[A('id')])
     league = tables.LinkColumn('league details', args=[A('league.id')])
+    transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
     class Meta:
         model = Season
@@ -32,6 +35,7 @@ class SeasonTable(tables.Table):
 
 class QueueTable(tables.Table):
     number = tables.LinkColumn('queue details', args=[A('id')], text=lambda record: 'Queue {0}'.format(record.number))
+    transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
     class Meta:
         model = Queue
@@ -42,6 +46,7 @@ class MatchTable(tables.Table):
     match = tables.LinkColumn('match details', args=[A('id')],
                               text=lambda record: '{0} vs. {1}'.format(record.first_team, record.second_team))
     queue = tables.LinkColumn('queue details', args=[A('queue.id')])
+    transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
     class Meta:
         model = Match
@@ -53,6 +58,7 @@ class MatchTable(tables.Table):
 class PlayerTable(tables.Table):
     player = tables.LinkColumn('player details', args=[A('id')],
                                text=lambda record: '{0} {1}'.format(record.first_name, record.last_name))
+    transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
     class Meta:
         model = Player

@@ -1,9 +1,13 @@
+from django.conf.urls.static import static
 from django.urls import path
+
+from s4s_web import settings
 from . import views
 
 
 urlpatterns = [
     path('', views.index, name="index"),
+    path('api/country/', views.country_api, name="country api"),
     path('service/country/', views.country_service, name="country service"),
     path('service/league/', views.league_service, name="league service"),
     path('service/season/', views.season_service, name="season service"),
@@ -23,4 +27,4 @@ urlpatterns = [
     path('player/', views.AllPlayersView.as_view(), name="all player list"),
     path('player/<int:player_id>/', views.player_details, name="player details"),
     path('best/', views.BestPlayersView.as_view(), name="all best players list"),
-]
+] + static(settings.STATIC_URL)

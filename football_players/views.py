@@ -17,9 +17,13 @@ def index(request):
     return render(request, 'index.html')
 
 
-def country_service(request):
+def country_api(request):
     get_countries_from_file()
     return HttpResponse("get_countries_from_file invoked")
+
+
+def country_service(request):
+    return render(request, 'services/country_service.html')
 
 
 def league_service(request):

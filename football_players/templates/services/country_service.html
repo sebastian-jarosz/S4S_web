@@ -1,0 +1,34 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block title %}
+Country service
+{% endblock title %}
+
+{% block body_data %}
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <h1>Country service</h1>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" id="runCountryService">Run service</button>
+        <br>
+        <div class="spinner-border text-secondary" id="countryServiceSpinner" style="display: none;"></div>
+    </div>
+    <br>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-success alert-dismissible" id="countryServiceSuccess" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Success!</strong> Country service successfully executed.
+        </div>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-danger alert-dismissible" id="countryServiceError" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Error!</strong> Problem occured during Country service execution.
+        </div>
+    </div>
+{% endblock body_data %}
+
+{% block custom_js %}
+<script type="text/javascript" src="{% static 'services/country_service.js' %}"></script>
+{% endblock custom_js %}

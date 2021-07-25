@@ -1,0 +1,58 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block title %}
+Match services
+{% endblock title %}
+
+{% block body_data %}
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <h1>Match services</h1>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <h3>Match service</h3>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" id="runMatchService">Run service</button>
+        <br>
+        <div class="spinner-border text-secondary" id="matchServiceSpinner" style="display: none;"></div>
+    </div>
+    <br>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-success alert-dismissible" id="matchServiceSuccess" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Success!</strong> Match service successfully executed.
+        </div>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-danger alert-dismissible" id="matchServiceError" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Error!</strong> Problem occured during Match service execution.
+        </div>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <h3>Match events service</h3>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" id="runMatchEventService">Run service</button>
+        <br>
+        <div class="spinner-border text-secondary" id="matchEventServiceSpinner" style="display: none;"></div>
+    </div>
+    <br>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-success alert-dismissible" id="matchEventServiceSuccess" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Success!</strong> Match events service successfully executed.
+        </div>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-danger alert-dismissible" id="matchEventServiceError" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Error!</strong> Problem occured during Match events service execution.
+        </div>
+    </div>
+{% endblock body_data %}
+
+{% block custom_js %}
+<script type="text/javascript" src="{% static 'services/match_services.js' %}"></script>
+{% endblock custom_js %}

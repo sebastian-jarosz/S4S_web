@@ -75,14 +75,18 @@ def player_attributes_service(request):
     return HttpResponse("update_attributes_for_not_updated_players invoked")
 
 
-def match_service(request):
+def match_api(request):
     create_matches_for_not_fetched_queues()
     return HttpResponse("create_matches_for_not_fetched_queues invoked")
 
 
-def match_events_service(request):
+def match_events_api(request):
     create_events_for_not_fetched_matches()
     return HttpResponse("create_events_for_all_matches invoked")
+
+
+def match_service(request):
+    return render(request, 'services/match_services.html')
 
 
 def country(request):

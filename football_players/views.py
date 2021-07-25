@@ -26,10 +26,14 @@ def country_service(request):
     return render(request, 'services/country_service.html')
 
 
-def league_service(request):
+def league_api(request):
     # get_leagues_from_all_countries()
     get_leagues_from_not_excluded_countries()
     return HttpResponse("get_leagues_from_all_countries invoked")
+
+
+def league_service(request):
+    return render(request, 'services/league_service.html')
 
 
 def season_service(request):

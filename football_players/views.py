@@ -46,9 +46,13 @@ def season_service(request):
     return render(request, 'services/season_service.html')
 
 
-def queue_service(request):
+def queue_api(request):
     create_queues_for_all_seasons()
     return HttpResponse("create_queues_for_all_seasons invoked")
+
+
+def queue_service(request):
+    return render(request, 'services/queue_service.html')
 
 
 def team_service(request):

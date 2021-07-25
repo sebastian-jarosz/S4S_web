@@ -11,6 +11,7 @@ urlpatterns = [
     path('service/country/', views.country_service, name="country service"),
     path('api/league/', views.league_api, name="league api"),
     path('service/league/', views.league_service, name="league service"),
+    path('api/season/', views.season_api, name="season api"),
     path('service/season/', views.season_service, name="season service"),
     path('service/queue/', views.queue_service, name="queue service"),
     path('service/team/', views.team_service, name="team service"),

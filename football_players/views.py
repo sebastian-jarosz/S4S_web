@@ -36,10 +36,14 @@ def league_service(request):
     return render(request, 'services/league_service.html')
 
 
-def season_service(request):
+def season_api(request):
     # create_seasons_for_all_leagues()
     create_seasons_for_not_excluded_leagues()
     return HttpResponse("create_seasons_for_all_leagues invoked")
+
+
+def season_service(request):
+    return render(request, 'services/season_service.html')
 
 
 def queue_service(request):

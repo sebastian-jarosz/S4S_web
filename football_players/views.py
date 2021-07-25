@@ -55,10 +55,14 @@ def queue_service(request):
     return render(request, 'services/queue_service.html')
 
 
-def team_service(request):
+def team_api(request):
     # create_teams_for_all_seasons()
     create_teams_for_not_fetched_seasons()
     return HttpResponse("create_teams_for_not_fetched_seasons invoked")
+
+
+def team_service(request):
+    return render(request, 'services/team_service.html')
 
 
 def player_service(request):

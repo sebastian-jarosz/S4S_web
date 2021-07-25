@@ -1,0 +1,58 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block title %}
+Player services
+{% endblock title %}
+
+{% block body_data %}
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <h1>Player services</h1>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <h3>Player service</h3>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" id="runPlayerService">Run service</button>
+        <br>
+        <div class="spinner-border text-secondary" id="playerServiceSpinner" style="display: none;"></div>
+    </div>
+    <br>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-success alert-dismissible" id="playerServiceSuccess" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Success!</strong> Player service successfully executed.
+        </div>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-danger alert-dismissible" id="playerServiceError" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Error!</strong> Problem occured during Player service execution.
+        </div>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <h3>Player attributes service</h3>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" id="runPlayerAttributeService">Run service</button>
+        <br>
+        <div class="spinner-border text-secondary" id="playerAttributeServiceSpinner" style="display: none;"></div>
+    </div>
+    <br>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-success alert-dismissible" id="playerAttributeServiceSuccess" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Success!</strong> Player attributes service successfully executed.
+        </div>
+    </div>
+    <div class="page-hero d-flex align-items-center justify-content-center">
+        <div class="alert alert-danger alert-dismissible" id="playerAttributeServiceError" style="display: none;">
+            <button type="button" class="close">&times;</button>
+            <strong>Error!</strong> Problem occured during Player attributes service execution.
+        </div>
+    </div>
+{% endblock body_data %}
+
+{% block custom_js %}
+<script type="text/javascript" src="{% static 'services/player_services.js' %}"></script>
+{% endblock custom_js %}

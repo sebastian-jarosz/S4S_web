@@ -65,16 +65,6 @@ def team_service(request):
     return render(request, 'services/team_service.html')
 
 
-def player_service(request):
-    create_players_for_all_teams_and_not_fetched_seasons()
-    return HttpResponse("create_players_for_all_teams_and_not_fetched_seasons invoked")
-
-
-def player_attributes_service(request):
-    update_attributes_for_not_updated_players()
-    return HttpResponse("update_attributes_for_not_updated_players invoked")
-
-
 def match_api(request):
     create_matches_for_not_fetched_queues()
     return HttpResponse("create_matches_for_not_fetched_queues invoked")
@@ -87,6 +77,20 @@ def match_events_api(request):
 
 def match_service(request):
     return render(request, 'services/match_services.html')
+
+
+def player_api(request):
+    create_players_for_all_teams_and_not_fetched_seasons()
+    return HttpResponse("create_players_for_all_teams_and_not_fetched_seasons invoked")
+
+
+def player_attributes_api(request):
+    update_attributes_for_not_updated_players()
+    return HttpResponse("update_attributes_for_not_updated_players invoked")
+
+
+def player_service(request):
+    return render(request, 'services/player_services.html')
 
 
 def country(request):

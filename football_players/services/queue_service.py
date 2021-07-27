@@ -1,5 +1,6 @@
 import datetime as dt
 import football_players.constants as const
+from time import sleep
 from .scraping_service import get_queue_page_soup_from_hyperlink
 from ..models import Season, ApplicationParameters, Queue
 from ..utils.app_utils import *
@@ -7,11 +8,22 @@ from ..utils.app_utils import *
 
 # Multithreading used
 def create_queues_for_all_seasons():
+    attempts = 0
     all_seasons = Season.objects.all()
-    pool = get_pool()
-    pool.map(create_queues_for_season, all_seasons)
-    pool.close()
-    pool.join()
+    # Split seasons to 50 records arrays
+    all_seasons_divided = [all_seasons[x:x + 50] for x in range(0, len(all_seasons), 50)]
+
+    while attempts < 50 and len(all_seasons_divided) > 0:
+        for seasons in all_seasons_divided:
+            try:
+                pool = get_pool()
+                pool.map(create_queues_for_season, seasons)
+                pool.close()
+                pool.join()
+                all_seasons_divided.remove(seasons)
+            except Exception:
+                attempts += 1
+                sleep(10)
 
 
 def create_queues_for_season(season):

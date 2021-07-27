@@ -2,15 +2,27 @@ import football_players.constants as const
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Match, Queue, Team
 from ..utils.app_utils import *
+from time import sleep
 
 
 # Multithreading used
 def create_matches_for_all_queues():
+    attempts = 0
     all_queues = Queue.objects.all()
-    pool = get_pool()
-    pool.map(create_matches_for_queue, all_queues)
-    pool.close()
-    pool.join()
+    # Split queues to 100 records arrays
+    all_queues_divided = [all_queues[x:x + 100] for x in range(0, len(all_queues), 100)]
+
+    while attempts < 50 and len(all_queues_divided) > 0:
+        for queues in all_queues_divided:
+            try:
+                pool = get_pool()
+                pool.map(create_matches_for_queue, queues)
+                pool.close()
+                pool.join()
+                all_queues_divided.remove(queues)
+            except Exception:
+                attempts += 1
+                sleep(10)
 
 
 # Multithreading used

@@ -2,6 +2,7 @@ import football_players.constants as const
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Season, Team, TeamSeason
 from ..utils.app_utils import *
+from time import sleep
 
 
 # Multithreading used
@@ -15,15 +16,22 @@ def create_teams_for_all_seasons():
 
 # Multithreading used
 def create_teams_for_not_fetched_seasons():
-    all_seasons = Season.objects.filter(all_teams_fetched=False)
-    if all_seasons.exists():
-        pool = get_pool()
-        pool.map(create_teams_for_season, all_seasons)
-        print("Teams for %i (count) Seasons - FETCHED" % len(all_seasons))
-        pool.close()
-        pool.join()
-    else:
-        print("All Teams for all Seasons - ALREADY FETCHED")
+    attempts = 0
+    while attempts < 50:
+        try:
+            all_seasons = Season.objects.filter(all_teams_fetched=False)
+            if all_seasons.exists():
+                pool = get_pool()
+                pool.map(create_teams_for_season, all_seasons)
+                print("Teams for %i (count) Seasons - FETCHED" % len(all_seasons))
+                pool.close()
+                pool.join()
+            else:
+                print("All Teams for all Seasons - ALREADY FETCHED")
+                break
+        except Exception:
+            attempts += 1
+            sleep(10)
 
 
 def create_teams_for_season(season):

@@ -177,9 +177,15 @@ def get_player_by_transfermarkt_id(transfermarkt_id):
 
 
 def create_all_goals(goal_player_ids, match):
-    for player_id in goal_player_ids:
-        player = get_player_by_transfermarkt_id(player_id)
-        create_goal(player, match)
+    existingGoalsCount = Goal.objects.filter(match=match).count()
+
+    # In case of inconsistent data check if in DB there is the same amount of goals, as it should be
+    # If not, delete all and pass once again
+    if existingGoalsCount != len(goal_player_ids):
+        Goal.objects.filter(match=match).delete()
+        for player_id in goal_player_ids:
+            player = get_player_by_transfermarkt_id(player_id)
+            create_goal(player, match)
 
 
 def create_goal(player, match):
@@ -195,9 +201,15 @@ def create_goal(player, match):
 
 
 def create_all_assists(assist_player_ids, match):
-    for player_id in assist_player_ids:
-        player = get_player_by_transfermarkt_id(player_id)
-        create_assist(player, match)
+    existingAssistsCount = Assist.objects.filter(match=match).count()
+
+    # In case of inconsistent data check if in DB there is the same amount of assists, as it should be
+    # If not, delete all and pass once again
+    if existingAssistsCount != len(assist_player_ids):
+        Assist.objects.filter(match=match).delete()
+        for player_id in assist_player_ids:
+            player = get_player_by_transfermarkt_id(player_id)
+            create_assist(player, match)
 
 
 def create_assist(player, match):

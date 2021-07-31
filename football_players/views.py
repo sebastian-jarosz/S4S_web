@@ -119,7 +119,8 @@ def league(request):
     # Only not excluded leagues are listed
     all_leagues = League.objects.filter(is_excluded=False)
     league_table = LeagueTable(all_leagues,
-                               extra_columns=(('id', None), ('transfermarkt_id', None), ('is_excluded', None),))
+                               extra_columns=(('id', None), ('transfermarkt_id', None),
+                                              ('transfermarkt_hyperlink', None), ('is_excluded', None),))
     return render(request, 'players/league.html', {'league_table': league_table})
 
 

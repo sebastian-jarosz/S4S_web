@@ -1,7 +1,11 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
     <!-- Brand -->
     <div class="navbar-header">
-        <a class="navbar-brand" href="{% url 'index' %}">S4S Web</a>
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'img/s4s_logo.png' %}" width="51" height="60" class="d-inline-block align-top" alt="">
+        </a>
     </div>
 
     <!-- Toggler/collapsibe Button -->

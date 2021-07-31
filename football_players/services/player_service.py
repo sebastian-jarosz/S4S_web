@@ -2,34 +2,28 @@ import football_players.constants as const
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Player, PlayerTeam, Team, Season, TeamSeason
 from ..utils.app_utils import *
-
-
-# Multithreading used
-def create_players_for_all_teams_and_seasons():
-    all_seasons = Season.objects.all()
-    for season in all_seasons:
-        team_season_rel_list = TeamSeason.objects.filter(season=season.id)
-        pool = get_small_pool()
-        pool.map(create_players_for_team_and_season, team_season_rel_list)
-        pool.close()
-        pool.join()
-        season.all_players_from_teams_fetched = True
-        season.save()
-        print("All players for season %s\t- CREATED" % season.description)
+from time import sleep
 
 
 # Multithreading used
 def create_players_for_all_teams_and_not_fetched_seasons():
-    all_seasons = Season.objects.filter(all_players_from_teams_fetched=False)
-    for season in all_seasons:
-        team_season_rel_list = TeamSeason.objects.filter(season=season.id)
-        pool = get_small_pool()
-        pool.map(create_players_for_team_and_season, team_season_rel_list)
-        pool.close()
-        pool.join()
-        season.all_players_from_teams_fetched = True
-        season.save()
-        print("All players for season %s\t- CREATED" % season.description)
+    attempts = 0
+    all_seasons = list(Season.objects.filter(all_players_from_teams_fetched=False))
+    while attempts < 50 and len(all_seasons) > 0:
+        for season in all_seasons:
+            try:
+                team_season_rel_list = TeamSeason.objects.filter(season=season.id)
+                pool = get_small_pool()
+                pool.map(create_players_for_team_and_season, team_season_rel_list)
+                pool.close()
+                pool.join()
+                season.all_players_from_teams_fetched = True
+                season.save()
+                all_seasons.remove(season)
+                print("All players for season %s\t- CREATED" % season.description)
+            except Exception:
+                attempts += 1
+                sleep(10)
 
 
 def create_players_for_team_and_season(team_season):
@@ -37,7 +31,6 @@ def create_players_for_team_and_season(team_season):
     team = team_season.team
     season = team_season.season
     players_list_hyperlink = get_players_hyperlink_from_team_hyperlink(team.transfermarkt_hyperlink, season)
-    print(players_list_hyperlink)
     page_soup = get_page_soup_from_hyperlink(players_list_hyperlink)
 
     # Players table

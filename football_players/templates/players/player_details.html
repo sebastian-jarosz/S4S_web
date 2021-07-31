@@ -6,18 +6,44 @@ Player - {{ player }}
 {% endblock title %}
 
 {% block body_data %}
+<div class="page-hero d-flex align-items-center justify-content-center">
     <h1>{{ player }}</h1>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
     <h4>Date of birth: {{ player.date_of_birth }}</h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
     <h4>Position: {{ player.position }}</h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
     <h4>Dominating foot: {{ player.foot }}</h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
     <h4>Agency: {{ player.agency }}</h4>
-    <h4><a href="{{ player.transfermarkt_hyperlink }}" target="_blank">Transfermarkt Hyperlink</a></h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4><a href="{{ player.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
+</div>
 
-    <h4>Goals:</h4>
-    <h5>Amount: {{ player.goal_set.count }}</h5>
-    {% render_table goal_table %}
-
-    <h3>Assists:</h3>
-    <h5>Amount: {{ player.assist_set.count }}</h5>
-    {% render_table assist_table %}
+<!-- Goals and Assists Information -->
+<div class="container">
+    <!-- Titles row -->
+    <div class="row">
+        <div class="col">
+            <h4>Goals - Amount: {{ player.goal_set.count }}</h4>
+        </div>
+        <div class="col">
+            <h4>Assists - Amount: {{ player.assist_set.count }}</h4>
+        </div>
+    </div>
+    <!-- Goals and Assists Tables row -->
+    <div class="row">
+        <div class="col">
+            {% render_table goal_table %}
+        </div>
+        <div class="col">
+            {% render_table assist_table %}
+        </div>
+    </div>
+</div>
 {% endblock body_data %}

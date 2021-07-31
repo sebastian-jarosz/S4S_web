@@ -73,6 +73,8 @@ class MatchPlayerTable(tables.Table):
                                text=lambda record: '{0} {1}'.format(record.player.first_name, record.player.last_name))
     position = tables.TemplateColumn('{{ record.player.position }}')
 
+    time = tables.Column(verbose_name="Minutes in match")
+
     class Meta:
         model = MatchPlayer
         # Change order of columns - player (explicitly created), rest of columns from DB

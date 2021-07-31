@@ -6,7 +6,13 @@ List of leagues - {{ country.description }}
 {% endblock title %}
 
 {% block body_data %}
-    <h1>{{ country.description }}</h1>
-    <h3>Leagues</h3>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h1>{{country.description}}</h1>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4><a href="{{ country.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
     {% render_table leagues_table %}
+</div>
 {% endblock body_data %}

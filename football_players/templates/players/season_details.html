@@ -6,7 +6,13 @@ List of queues - {{ season.description }}
 {% endblock title %}
 
 {% block body_data %}
+<div class="page-hero d-flex align-items-center justify-content-center">
     <h1>{{ season.description }}</h1>
-    <h3>Queues:</h3>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4><a href="{{ season.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
     {% render_table queues_table %}
+</div>
 {% endblock body_data %}

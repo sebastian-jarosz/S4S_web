@@ -6,8 +6,16 @@ List of matches - Queue {{ queue.number }} - {{ queue.season }}
 {% endblock title %}
 
 {% block body_data %}
-    <h1>Season {{ queue.season }}</h1>
-    <h3>Queue {{ queue.number }}</h3>
-    <h3>Matches:</h3>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h1>Season - {{ queue.season }}</h1>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4>Queue {{ queue.number }}</h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4><a href="{{ queue.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
     {% render_table matches_table %}
+</div>
 {% endblock body_data %}

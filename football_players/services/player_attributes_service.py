@@ -2,28 +2,28 @@ import football_players.constants as const
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Player, Position, ManagementAgency, DominatingFoot
 from ..utils.app_utils import *
-
-
-# Multithreading used
-def update_attributes_for_all_players():
-    all_players = Player.objects.all()
-    pool = get_pool()
-    pool.map(update_attributes_for_player, all_players)
-    pool.close()
-    pool.join()
+from time import sleep
 
 
 # Multithreading used
 def update_attributes_for_not_updated_players():
+    attempts = 0
     all_players = Player.objects.filter(date_of_birth=None) \
                   | Player.objects.filter(position=None) \
                   | Player.objects.filter(foot=None) \
                   | Player.objects.filter(agency=None)
-
-    pool = get_pool()
-    pool.map(update_attributes_for_player, all_players)
-    pool.close()
-    pool.join()
+    all_players_divided = [all_players[x:x + 100] for x in range(0, len(all_players), 100)]
+    while attempts < 50 and len(all_players_divided) > 0:
+        for players in all_players_divided:
+            try:
+                pool = get_pool()
+                pool.map(update_attributes_for_player, players)
+                pool.close()
+                pool.join()
+                all_players_divided.remove(players)
+            except Exception:
+                attempts += 1
+                sleep(10)
 
 
 def update_attributes_for_player(player):

@@ -6,43 +6,92 @@ Match - {{ match }}
 {% endblock title %}
 
 {% block body_data %}
+<div class="page-hero d-flex align-items-center justify-content-center">
     <h1>{{ match.first_team }} vs {{ match.second_team }}</h1>
-    <h3>Date: {{ match.date }}</h3>
-    <h3>Season: {{ match.queue.season.description }}</h3>
-    <h3>Queue nr: {{ match.queue.number }}</h3>
-    <h3><a href="{{ match.transfermarkt_hyperlink }}" target="_blank">Transfermarkt Hyperlink</a></h3>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4>Date: {{ match.date }}</h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4>Season: {{ match.queue.season.description }}</h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4>Queue nr: {{ match.queue.number }}</h4>
+</div>
+<div class="page-hero d-flex align-items-center justify-content-center">
+    <h4><a href="{{ match.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
+</div>
 
-    <h3>Goals for {{ match.first_team }}:</h3>
-    {% if first_team_goals_table %}
-        {% render_table first_team_goals_table %}
-    {% else %}
-        <li>No goals for {{ match.first_team }}</li>
-    {% endif %}
-
-    <h3>Goals for {{ match.second_team }}:</h3>
-    {% if second_team_goals_table %}
-        {% render_table second_team_goals_table %}
-    {% else %}
-        <li>No goals for {{ match.second_team }}</li>
-    {% endif %}
-
-    <h3>Assists for {{ match.first_team }}:</h3>
-    {% if first_team_assists_table %}
-        {% render_table first_team_assists_table %}
-    {% else %}
-        <li>No assists for {{ match.first_team }}</li>
-    {% endif %}
-
-    <h3>Assists for {{ match.second_team }}:</h3>
-    {% if second_team_assists_table %}
-        {% render_table second_team_assists_table %}
-    {% else %}
-        <li>No assists for {{ match.second_team }}</li>
-    {% endif %}
-
-    <h3>{{ match.first_team }} players:</h3>
-    {% render_table first_team_players_table %}
-
-    <h3>{{ match.second_team }} players:</h3>
-    {% render_table second_team_players_table %}
+<div class="container">
+    <!-- Goal titles row -->
+    <div class="row">
+        <div class="col">
+            <h4>Goals for {{ match.first_team }}:</h4>
+        </div>
+        <div class="col">
+            <h4>Goals for {{ match.second_team }}:</h4>
+        </div>
+    </div>
+    <!-- Goal tables row -->
+    <div class="row">
+        <div class="col">
+            {% if first_team_goals_table %}
+            {% render_table first_team_goals_table %}
+            {% else %}
+                <p>No goals for {{ match.first_team }}</p>
+            {% endif %}
+        </div>
+        <div class="col">
+            {% if second_team_goals_table %}
+            {% render_table second_team_goals_table %}
+            {% else %}
+                <p>No goals for {{ match.second_team }}</p>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Assist titles row -->
+    <div class="row">
+        <div class="col">
+            <h4>Assists for {{ match.first_team }}:</h4>
+        </div>
+        <div class="col">
+            <h4>Assists for {{ match.second_team }}:</h4>
+        </div>
+    </div>
+    <!-- Assist tables row -->
+    <div class="row">
+        <div class="col">
+            {% if first_team_assists_table %}
+                {% render_table first_team_assists_table %}
+            {% else %}
+                <p>No assists for {{ match.first_team }}</p>
+            {% endif %}
+        </div>
+        <div class="col">
+            {% if second_team_assists_table %}
+                {% render_table second_team_assists_table %}
+            {% else %}
+                <li>No assists for {{ match.second_team }}</li>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Player titles row -->
+    <div class="row">
+        <div class="col">
+            <h4>Players of {{ match.first_team }}:</h4>
+        </div>
+        <div class="col">
+            <h4>Players of {{ match.second_team }}</h4>
+        </div>
+    </div>
+    <!-- Player tables row -->
+    <div class="row">
+        <div class="col">
+            {% render_table first_team_players_table %}
+        </div>
+        <div class="col">
+            {% render_table second_team_players_table %}
+        </div>
+    </div>
+</div>
 {% endblock body_data %}

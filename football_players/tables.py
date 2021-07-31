@@ -5,7 +5,7 @@ from .models import *
 
 
 class CountryTable(tables.Table):
-    description = tables.LinkColumn('country details', args=[A('id')])
+    description = tables.LinkColumn('country details', args=[A('id')], verbose_name="Country name")
     transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
     class Meta:
@@ -14,7 +14,7 @@ class CountryTable(tables.Table):
 
 
 class LeagueTable(tables.Table):
-    description = tables.LinkColumn('league details', args=[A('id')])
+    description = tables.LinkColumn('league details', args=[A('id')], verbose_name="League name")
     country = tables.LinkColumn('country details', args=[A('country.id')])
     transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
@@ -24,7 +24,7 @@ class LeagueTable(tables.Table):
 
 
 class SeasonTable(tables.Table):
-    description = tables.LinkColumn('season details', args=[A('id')])
+    description = tables.LinkColumn('season details', args=[A('id')], verbose_name="Season name")
     league = tables.LinkColumn('league details', args=[A('league.id')])
     transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
@@ -34,7 +34,8 @@ class SeasonTable(tables.Table):
 
 
 class QueueTable(tables.Table):
-    number = tables.LinkColumn('queue details', args=[A('id')], text=lambda record: 'Queue {0}'.format(record.number))
+    number = tables.LinkColumn('queue details', args=[A('id')], text=lambda record: 'Queue {0}'.format(record.number),
+                               verbose_name="Queue name")
     transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
 
     class Meta:
@@ -62,8 +63,20 @@ class PlayerTable(tables.Table):
 
     class Meta:
         model = Player
-        # Change order of columns - match (explicitly created), rest of columns from DB
+        # Change order of columns - player (explicitly created), rest of columns from DB
         sequence = ('player', '...')
+        template_name = "django_tables2/bootstrap.html"
+
+
+class MatchPlayerTable(tables.Table):
+    player = tables.LinkColumn('player details', args=[A('player.id')],
+                               text=lambda record: '{0} {1}'.format(record.player.first_name, record.player.last_name))
+    position = tables.TemplateColumn('{{ record.player.position }}')
+
+    class Meta:
+        model = MatchPlayer
+        # Change order of columns - player (explicitly created), rest of columns from DB
+        sequence = ('player', 'position', '...')
         template_name = "django_tables2/bootstrap.html"
 
 

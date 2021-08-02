@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django_tables2 import SingleTableView
+from django_tables2 import SingleTableView, RequestConfig
 from .services.country_service import *
 from .services.league_service import *
 from .services.season_service import *
@@ -97,8 +97,8 @@ def country(request):
     # Only not excluded countries are listed
     all_countries = Country.objects.filter(is_excluded=False)
     country_table = CountryTable(all_countries,
-                                 extra_columns=(('id', None), ('transfermarkt_id', None),
-                                                ('transfermarkt_hyperlink', None), ('is_excluded', None)))
+                                 extra_columns=(('id', None), ('transfermarkt_id', None), ('is_excluded', None)))
+    RequestConfig(request, paginate={"per_page": 12}).configure(country_table)
     return render(request, 'players/country.html', {'country_table': country_table})
 
 
@@ -106,8 +106,8 @@ def country_details(request, country_id):
     country_obj = get_object_or_404(Country, pk=country_id)
     leagues_table = LeagueTable(country_obj.get_not_excluded_leagues(),
                                 extra_columns=(('id', None), ('is_excluded', None),
-                                               ('transfermarkt_id', None), ('transfermarkt_hyperlink', None),
-                                               ('country', None),))
+                                               ('transfermarkt_id', None), ('country', None),))
+    RequestConfig(request, paginate={"per_page": 12}).configure(leagues_table)
     return render(request, 'players/country_details.html',
                   {
                       'country': country_obj,
@@ -121,6 +121,7 @@ def league(request):
     league_table = LeagueTable(all_leagues,
                                extra_columns=(('id', None), ('transfermarkt_id', None),
                                               ('transfermarkt_hyperlink', None), ('is_excluded', None),))
+    RequestConfig(request, paginate={"per_page": 12}).configure(league_table)
     return render(request, 'players/league.html', {'league_table': league_table})
 
 
@@ -128,6 +129,7 @@ def league_details(request, league_id):
     league_obj = get_object_or_404(League, pk=league_id)
     seasons_table = SeasonTable(league_obj.get_all_seasons(), extra_columns=(('id', None), ('league', None),
                                                                              ('transfermarkt_hyperlink', None),))
+    RequestConfig(request, paginate={"per_page": 12}).configure(seasons_table)
     return render(request, 'players/league_details.html',
                   {
                       'league': league_obj,
@@ -137,8 +139,8 @@ def league_details(request, league_id):
 
 def season_details(request, season_id):
     season_obj = get_object_or_404(Season, pk=season_id)
-    queues_table = QueueTable(season_obj.get_all_queues(), extra_columns=(('id', None), ('season', None),
-                                                                          ('transfermarkt_hyperlink', None),))
+    queues_table = QueueTable(season_obj.get_all_queues(), extra_columns=(('id', None), ('season', None),))
+    RequestConfig(request, paginate={"per_page": 12}).configure(queues_table)
     return render(request, 'players/season_details.html',
                   {
                       'season': season_obj,
@@ -151,6 +153,7 @@ def queue_details(request, queue_id):
     matches_table = MatchTable(queue_obj.get_all_matches(),
                                extra_columns=(('id', None), ('first_team', None), ('second_team', None),
                                               ('transfermarkt_hyperlink', None), ('queue', None)))
+    RequestConfig(request, paginate={"per_page": 12}).configure(matches_table)
     return render(request, 'players/queue_details.html',
                   {
                       'queue': queue_obj,

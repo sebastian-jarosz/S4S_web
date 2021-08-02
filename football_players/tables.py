@@ -10,7 +10,7 @@ class CountryTable(tables.Table):
 
     class Meta:
         model = Country
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"
 
 
 class LeagueTable(tables.Table):
@@ -20,7 +20,7 @@ class LeagueTable(tables.Table):
 
     class Meta:
         model = League
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"
 
 
 class SeasonTable(tables.Table):
@@ -30,7 +30,7 @@ class SeasonTable(tables.Table):
 
     class Meta:
         model = Season
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"
 
 
 class QueueTable(tables.Table):
@@ -40,7 +40,7 @@ class QueueTable(tables.Table):
 
     class Meta:
         model = Queue
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"
 
 
 class MatchTable(tables.Table):
@@ -53,7 +53,7 @@ class MatchTable(tables.Table):
         model = Match
         # Change order of columns - match (explicitly created), rest of columns from DB
         sequence = ('match', '...')
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"
 
 
 class PlayerTable(tables.Table):
@@ -65,7 +65,7 @@ class PlayerTable(tables.Table):
         model = Player
         # Change order of columns - player (explicitly created), rest of columns from DB
         sequence = ('player', '...')
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"
 
 
 class MatchPlayerTable(tables.Table):
@@ -79,7 +79,7 @@ class MatchPlayerTable(tables.Table):
         model = MatchPlayer
         # Change order of columns - player (explicitly created), rest of columns from DB
         sequence = ('player', 'position', '...')
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"
 
 
 class GoalTable(tables.Table):
@@ -87,7 +87,7 @@ class GoalTable(tables.Table):
 
     class Meta:
         model = Goal
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"
 
 
 class AssistTable(tables.Table):
@@ -95,4 +95,4 @@ class AssistTable(tables.Table):
 
     class Meta:
         model = Assist
-        template_name = "django_tables2/bootstrap.html"
+        template_name = "django_tables2/bootstrap-responsive.html"

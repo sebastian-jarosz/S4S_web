@@ -6,23 +6,25 @@ Match - {{ match }}
 {% endblock title %}
 
 {% block body_data %}
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h1>{{ match.first_team }} vs {{ match.second_team }}</h1>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4>Date: {{ match.date }}</h4>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4>Season: {{ match.queue.season.description }}</h4>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4>Queue nr: {{ match.queue.number }}</h4>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4><a href="{{ match.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
-</div>
-
 <div class="container">
+    <div class="row">
+        <h1>{{ match.first_team }} vs {{ match.second_team }}</h1>
+    </div>
+    <div class="row">
+        <h4>Date: {{ match.date }}</h4>
+    </div>
+    <div class="row">
+        <h4>Season: {{ match.queue.season.description }}</h4>
+    </div>
+    <div class="row">
+        <h4>Queue nr: {{ match.queue.number }}</h4>
+    </div>
+    <div class="row">
+        <h4><a href="{{ match.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
+    </div>
+
+    <br>
+
     <!-- Goal titles row -->
     <div class="row">
         <div class="col">

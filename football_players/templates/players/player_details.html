@@ -6,27 +6,27 @@ Player - {{ player }}
 {% endblock title %}
 
 {% block body_data %}
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h1>{{ player }}</h1>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4>Date of birth: {{ player.date_of_birth }}</h4>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4>Position: {{ player.position }}</h4>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4>Dominating foot: {{ player.foot }}</h4>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4>Agency: {{ player.agency }}</h4>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4><a href="{{ player.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
-</div>
-
-<!-- Goals and Assists Information -->
 <div class="container">
+    <div class="row">
+        <h1>{{ player }}</h1>
+    </div>
+    <div class="row">
+        <h4>Date of birth: {{ player.date_of_birth }}</h4>
+    </div>
+    <div class="row">
+        <h4>Position: {{ player.position }}</h4>
+    </div>
+    <div class="row">
+        <h4>Dominating foot: {{ player.foot }}</h4>
+    </div>
+    <div class="row">
+        <h4>Agency: {{ player.agency }}</h4>
+    </div>
+    <div class="row">
+        <h4><a href="{{ player.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
+    </div>
+
+    <!-- Goals and Assists Information -->
     <!-- Titles row -->
     <div class="row">
         <div class="col">

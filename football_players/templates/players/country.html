@@ -6,10 +6,12 @@ List of countries
 {% endblock title %}
 
 {% block body_data %}
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h1>Countries</h1>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    {% render_table country_table %}
+<div class="container">
+    <div class="row">
+        <h1>Countries</h1>
+    </div>
+    <div class="row">
+        {% render_table country_table %}
+    </div>
 </div>
 {% endblock body_data %}

@@ -6,13 +6,15 @@ List of seasons - {{ league.description }}
 {% endblock title %}
 
 {% block body_data %}
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h1>{{ league.description }}</h1>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    <h4><a href="{{ league.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
-</div>
-<div class="page-hero d-flex align-items-center justify-content-center">
-    {% render_table seasons_table %}
+<div class="container">
+    <div class="row">
+        <h1>{{ league.description }}</h1>
+    </div>
+    <div class="row">
+        <h4><a href="{{ league.transfermarkt_hyperlink }}" target="_blank">Transfermarkt URL</a></h4>
+    </div>
+    <div class="row">
+        {% render_table seasons_table %}
+    </div>
 </div>
 {% endblock body_data %}

@@ -1,4 +1,6 @@
 import football_players.constants as const
+from django.core.exceptions import MultipleObjectsReturned
+
 from .scraping_service import get_page_soup_from_hyperlink
 from ..models import Match, Goal, Player, Assist, MatchPlayer
 from ..utils.app_utils import *
@@ -16,13 +18,14 @@ def create_events_for_all_matches():
 # Multithreading used
 def create_events_for_not_fetched_matches():
     attempts = 0
-    not_fetched_matches = Match.objects.filter(are_event_fetched=False)
+    not_fetched_matches = list(Match.objects.filter(are_event_fetched=False))
 
     # Needed in case of connection refuse (too many requests)
     while attempts < 100 and len(not_fetched_matches) > 0:
         for match in not_fetched_matches:
             try:
                 create_events_for_match(match)
+                not_fetched_matches.remove(match)
             except requests.exceptions.ConnectionError:
                 attempts += 1
                 sleep(10)
@@ -228,11 +231,19 @@ def create_match_player_relation(player, match, time):
     if player is None or match is None:
         return
 
-    obj, created = MatchPlayer.objects.get_or_create(
-        player=player,
-        match=match,
-        time=time
-    )
+    while True:
+        try:
+            obj, created = MatchPlayer.objects.get_or_create(
+                player=player,
+                match=match,
+                time=time
+            )
+            break
+        except MultipleObjectsReturned:
+            MatchPlayer.objects.filter(
+                player=player,
+                match=match,
+                time=time).delete()
 
     if created:
         print("Relation - player %s\t in match %s\t - CREATED" % (player, match.date))

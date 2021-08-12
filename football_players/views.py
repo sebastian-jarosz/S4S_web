@@ -231,8 +231,13 @@ def player_details(request, player_id):
 
 def player(request):
     all_players = Player.objects.all()
-    player_table = BestPlayersTable(all_players, extra_columns=(('id', None),
-                                                                ('transfermarkt_id', None)))
+
+    player_table = BestPlayersTable(all_players,
+                                    extra_columns=(('id', None),
+                                                   ('first_name', None),
+                                                   ('last_name', None),
+                                                   ('transfermarkt_hyperlink', None),
+                                                   ('transfermarkt_id', None)))
 
     RequestConfig(request, paginate={"per_page": 12}).configure(player_table)
     return render(request, 'players/player.html',

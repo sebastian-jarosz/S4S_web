@@ -1,4 +1,5 @@
 import django_tables2 as tables
+from django.db.models import F, Count
 from django_tables2 import A
 
 from .models import *
@@ -99,11 +100,33 @@ class AssistTable(tables.Table):
 
 
 class BestPlayersTable(tables.Table):
-    # name = tables.LinkColumn('player details', args=[A('id')],
-    #                          text=lambda record: '{0} {1}'.format(record.first_name, record.last_name))
-    # position = tables.TemplateColumn('{{ record.position }}')
-    # transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
+    name = tables.LinkColumn('player details', args=[A('id')], order_by=("first_name", "last_name"),
+                             text=lambda record: '{0} {1}'.format(record.first_name, record.last_name))
+    goals = tables.TemplateColumn('{{ record.goal_set.count }}')
+    assists = tables.TemplateColumn('{{ record.assist_set.count }}')
+    time_in_matches = tables.TemplateColumn('{{ record.get_time_sum_from_all_matches }}')
+    transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
+
+    def order_time_in_matches(self, queryset, is_descending):
+        queryset = queryset.annotate(
+            time_in_matches=(Sum('matchplayer__time'))
+        ).order_by(("-" if is_descending else "") + "time_in_matches")
+        return queryset, True
+
+    def order_goals(self, queryset, is_descending):
+        queryset = queryset.annotate(
+            goals=(Count('goal'))
+        ).order_by(("-" if is_descending else "") + "goals")
+        return queryset, True
+
+    def order_assists(self, queryset, is_descending):
+        queryset = queryset.annotate(
+            assists=(Count('assist'))
+        ).order_by(("-" if is_descending else "") + "assists")
+        return queryset, True
 
     class Meta:
         model = Player
+        # Change order of columns - name (explicitly created), rest of columns from DB
+        sequence = ('name', '...')
         template_name = "tables/responsive-table.html"

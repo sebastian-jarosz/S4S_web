@@ -96,3 +96,14 @@ class AssistTable(tables.Table):
     class Meta:
         model = Assist
         template_name = "tables/responsive-table.html"
+
+
+class BestPlayersTable(tables.Table):
+    # name = tables.LinkColumn('player details', args=[A('id')],
+    #                          text=lambda record: '{0} {1}'.format(record.first_name, record.last_name))
+    # position = tables.TemplateColumn('{{ record.position }}')
+    # transfermarkt_hyperlink = tables.URLColumn(attrs={'a': {'target': '_blank'}})
+
+    class Meta:
+        model = Player
+        template_name = "tables/responsive-table.html"

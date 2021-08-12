@@ -215,12 +215,6 @@ def match_details(request, match_id):
                   })
 
 
-class AllPlayersView(SingleTableView):
-    model = Player
-    table_class = PlayerTable
-    template_name = 'players/player.html'
-
-
 def player_details(request, player_id):
     player_obj = get_object_or_404(Player, pk=player_id)
 
@@ -235,13 +229,13 @@ def player_details(request, player_id):
                   })
 
 
-def best_players(request):
+def player(request):
     all_players = Player.objects.all()
-    # all_players = Player.objects.filter(id=1)
-    return render(request, 'players/best_player.html', {'all_players': all_players})
+    player_table = BestPlayersTable(all_players, extra_columns=(('id', None),
+                                                                ('transfermarkt_id', None)))
 
-
-class BestPlayersView(SingleTableView):
-    model = Player
-    table_class = PlayerTable
-    template_name = 'players/best_player.html'
+    RequestConfig(request, paginate={"per_page": 12}).configure(player_table)
+    return render(request, 'players/player.html',
+                  {
+                      'player_table': player_table
+                   })
